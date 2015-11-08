@@ -8,8 +8,7 @@ angular.module('hockeyStats')
 		// routes to 'posts' service where data is passed to back end
 		posts.create({
 			title: $scope.title,
-			link: $scope.link,
-			upvotes: 0
+			link: $scope.link
 		});
 		$scope.title = '';
 		$scope.link  = '';
