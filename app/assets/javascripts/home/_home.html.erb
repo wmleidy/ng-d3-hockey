@@ -2,29 +2,112 @@
 	<h1>Hockey Stats Visualized</h1>
 </div>
 
-<div ng-repeat="post in posts | orderBy: '-upvotes'">
-	<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(post)"></span>
-	{{post.upvotes}}
-	<span style="font-size:20px; margin-left: 10px">
-		<a ng-show="post.link" href="{{post.link}}">
-			{{post.title}}
-		</a>
-		<span ng-hide="post.link">
-			{{post.title}}
-		</span>
-	</span>
-	posted by <a ng-href="#/users/{{post.user.username}}">{{post.user.username}}</a>
-	<span><a href="#/posts/{{post.id}}">Comments</a></span>
-</div>
+<table>
+	<tr>
+		<th>Rank</th>
+		<th>Name</th>
+		<th>Team</th>
+		<th>Pos</th>
+		<th>GP</th>
+		<th>TOI</th>
+		<th>CF</th>
+		<th>CA</th>
+		<th>CF60</th>
+		<th>CA60</th>
+		<th>CF%</th>
+		<th>TmCF60</th>
+		<th>TmCA60</th>
+		<th>TmCF%</th>
+		<th>OppCF60</th>
+		<th>OppCA60</th>
+		<th>OppCF%</th>
+		<th>CF60RelTm</th>
+		<th>CA60RelTm</th>
+		<th>:CF%RelTm</th>
+		<th>CSh%</th>
+		<th>CSv%</th>
+		<th>CPDO</th>
+		<th>GF</th>
+		<th>GA</th>
+		<th>GF60</th>
+		<th>GA60</th>
+		<th>GF%</th>
+		<th>TmGF60</th>
+		<th>TmGA60</th>
+		<th>TmGF%</th>
+		<th>OppGF60</th>
+		<th>OppGA60</th>
+		<th>OppGF%</th>
+		<th>GF60RelTm</th>
+		<th>GA60RelTm</th>
+		<th>GF%RelTm</th>
+		<th>iGoals</th>
+		<th>iAssists</th>
+		<th>iPoints</th>
+		<th>iShot%</th>
+		<th>iGoals60</th>
+		<th>iAssists60</th>
+		<th>iPoints60</th>
+		<th>IG%</th>
+		<th>IA%</th>
+		<th>IP%</th>
+		<th>TotFO</th>
+		<th>NZFO</th>
+		<th>DZFO</th>
+		<th>OZFO</th>
+	</tr>
 
-<form ng-submit="addPost()" style="margin-top:30px">
-	<h3>Add a new post</h3>
-
-	<div class="form-group">
-		<input type="text" class="form-control" placeholder="Title" ng-model="title" />
-	</div>
-	<div class="form-group">
-		<input type="text" class="form-control" placeholder="Link"  ng-model="link" />
-	</div>
-	<button type="submit" class="btn btn-primary">Post It!</button>
-</form>
+	<tr ng-repeat="player in players">
+		<td>{{$index + 1}}</td>
+		<td>{{player.name}}</td>
+		<td>{{player.team}}</td>
+		<td>{{player.pos}}</td>
+		<td>{{player.gp}}</td>
+		<td>{{player.toi}}</td>
+		<td>{{player.cf}}</td>
+		<td>{{player.ca}}</td>
+		<td>{{player.cf60}}</td>
+		<td>{{player.ca60}}</td>
+		<td>{{player.cf_per}}</td>
+		<td>{{player.tmcf60}}</td>
+		<td>{{player.tmca60}}</td>
+		<td>{{player.tmcf_per}}</td>
+		<td>{{player.oppcf60}}</td>
+		<td>{{player.oppca60}}</td>
+		<td>{{player.oppcf_per}}</td>
+		<td>{{player.cf60reltm}}</td>
+		<td>{{player.ca60reltm}}</td>
+		<td>{{player.cf_per_reltm}}</td>
+		<td>{{player.csh_per}}</td>
+		<td>{{player.csv_per}}</td>
+		<td>{{player.cpdo}}</td>
+		<td>{{player.gf}}</td>
+		<td>{{player.ga}}</td>
+		<td>{{player.gf60}}</td>
+		<td>{{player.ga60}}</td>
+		<td>{{player.gf_per}}</td>
+		<td>{{player.tmgf60}}</td>
+		<td>{{player.tmga60}}</td>
+		<td>{{player.tmgf_per}}</td>
+		<td>{{player.oppgf60}}</td>
+		<td>{{player.oppga60}}</td>
+		<td>{{player.oppgf_per}}</td>
+		<td>{{player.gf60reltm}}</td>
+		<td>{{player.ga60reltm}}</td>
+		<td>{{player.gf_per_reltm}}</td>
+		<td>{{player.igoals}}</td>
+		<td>{{player.iassists}}</td>
+		<td>{{player.ipoints}}</td>
+		<td>{{player.ishot_per}}</td>
+		<td>{{player.igoals60}}</td>
+		<td>{{player.iassists60}}</td>
+		<td>{{player.ipoints60}}</td>
+		<td>{{player.igp}}</td>
+		<td>{{player.iap}}</td>
+		<td>{{player.ipp}}</td>
+		<td>{{player.totfo}}</td>
+		<td>{{player.nzfo}}</td>
+		<td>{{player.dzfo}}</td>
+		<td>{{player.ozfo}}</td>
+	</tr>
+</table>
