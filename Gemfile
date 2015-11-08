@@ -28,6 +28,11 @@ gem 'angular_rails_csrf'
 # Use the dark powers of Devise
 gem 'devise'
 
+# Allow Angular to access these powers
+source "https://rails-assets.org" do
+  gem "rails-assets-angular-devise"
+end
+
 # Use Unicorn as the app server
 # gem 'unicorn'
 
