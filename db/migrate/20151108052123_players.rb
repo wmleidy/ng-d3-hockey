@@ -1,11 +1,11 @@
 class Players < ActiveRecord::Migration
   def change
   	create_table :players do |t|
-  		t.string :season, limit: 10
-  		t.string :situation, limit: 20
-      t.string :name, limit: 40
-  		t.string :team, limit: 16
-  		t.string :pos, limit: 6
+  		t.string  :season, limit: 10
+  		t.string  :situation, limit: 20
+      t.string  :name, limit: 40
+  		t.string  :team, limit: 16
+  		t.string  :pos, limit: 6
   		t.integer :gp
   		t.integer :toi
   		t.integer :cf
