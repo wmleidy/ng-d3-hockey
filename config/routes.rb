@@ -5,6 +5,18 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root to: 'application#angular'
 
+  resources :posts, only: [:create, :index, :show] do
+    resources :comments, only: [:show, :create] do
+      member do
+        put '/upvote' => 'comments#upvote'
+      end
+    end
+
+    member do
+      put '/upvote' => 'posts#upvote'
+    end
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

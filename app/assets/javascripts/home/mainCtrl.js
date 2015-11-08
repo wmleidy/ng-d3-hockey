@@ -1,31 +1,21 @@
 angular.module('hockeyStats')
 .controller('MainCtrl', ['$scope', 'posts', function($scope, posts){
+	// syncs our local controller scope with the posts array from the 'posts' service
 	$scope.posts = posts.posts;
-
-	$scope.posts = [
-		{title: 'post1', upvotes: 5},
-		{title: 'post2', upvotes: 2},
-		{title: 'post3', upvotes: 15},
-		{title: 'post4', upvotes: 9},
-		{title: 'post5', upvotes: 4}
-	];
 
 	$scope.addPost = function(){
 		if(!$scope.title || $scope.title === '') { return; }
-		$scope.posts.push({
+		// routes to 'posts' service where data is passed to back end
+		posts.create({
 			title: $scope.title,
 			link: $scope.link,
-			upvotes: 0,
-			comments: [
-				{author: 'Joe', body: 'Cool post, dude!', upvotes: 0},
-				{author: 'Bob', body: 'Dunno about that...', upvotes: 0}
-			]
+			upvotes: 0
 		});
 		$scope.title = '';
 		$scope.link  = '';
 	}
 
 	$scope.incrementUpvotes = function(post) {
-		post.upvotes++;
-	}
+		posts.upvote(post);
+	};
 }])
