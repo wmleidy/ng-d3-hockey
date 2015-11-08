@@ -3,7 +3,8 @@ class Players < ActiveRecord::Migration
   	create_table :players do |t|
   		t.string :season, limit: 10
   		t.string :situation, limit: 20
-  		t.string :name, limit: 16
+      t.string :name, limit: 40
+  		t.string :team, limit: 16
   		t.string :pos, limit: 6
   		t.integer :gp
   		t.integer :toi
@@ -21,7 +22,6 @@ class Players < ActiveRecord::Migration
   		t.decimal :cf60reltm, precision: 3
   		t.decimal :ca60reltm, precision: 3
   		t.decimal :cf_per_reltm, precision: 3
-  		t.decimal :cf60reltm, precision: 3
   		t.decimal :csh_per, precision: 3
   		t.decimal :csv_per, precision: 3
   		t.decimal :cpdo, precision: 4, scale: 1
@@ -32,7 +32,7 @@ class Players < ActiveRecord::Migration
   		t.integer :igoals
   		t.integer	:iassists
   		t.integer :ipoints
-  		t.decimal :ishot_per, precision: 3, scale: 1
+  		t.decimal :ishot_per, precision: 3
   		t.decimal :igoals60, precision: 3
   		t.decimal :iassists60, precision: 3
   		t.decimal :ipoints60, precision: 3
@@ -52,7 +52,7 @@ class Players < ActiveRecord::Migration
   		t.decimal :oppgf_per, precision: 3
   		t.decimal :gf60reltm, precision: 3
   		t.decimal :ga60reltm, precision: 3
-  		t.decimal :gf_per_reltm, precision: 3, scale: 1
+  		t.decimal :gf_per_reltm, precision: 3
   	end
   end
 end
