@@ -1,12 +1,20 @@
 angular.module('hockeyStats')
 .factory('players', ['$http', function($http){
 	var o = {
-		players: []
+		players: [],
+		teams: []
 	};
 
 	o.getAll = function() {
 		return $http.get('/players.json').success(function(data){
 			angular.copy(data, o.players);
+		});
+	};
+
+	o.getTeams = function() {
+		return $http.get('/players/teams.json').success(function(data){
+			console.log(data);
+			angular.copy(data, o.teams);
 		});
 	};
 
