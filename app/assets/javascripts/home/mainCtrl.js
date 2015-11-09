@@ -22,4 +22,10 @@ angular.module('hockeyStats')
 	$scope.team_name = 'Chicago';
 	$scope.season = '2014-2015';
 	$scope.situation = '5v5 All';
+
+	$scope.selectParams = function() {
+		players.getPlayerDataByTeam($scope.team_name);
+	};
+
+	// $scope.orderProp = 'cf_per'
 }])

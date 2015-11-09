@@ -4,11 +4,17 @@ angular.module('hockeyStats')
 		players: []
 	};
 
-	o.getAll = function() {
-		return $http.get('/players.json').success(function(data){
+	// o.getAll = function() {
+	// 	return $http.get('/players.json').success(function(data){
+	// 		angular.copy(data, o.players);
+	// 	});
+	// };
+
+	o.getPlayerDataByTeam = function(teamName) {
+		return $http.get('/players/search.json?team_name=' + teamName).success(function(data){
 			angular.copy(data, o.players);
 		});
-	};
+	}
 
 	// o.getTeams = function() {
 	// 	return $http.get('/players/teams.json').success(function(data){

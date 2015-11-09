@@ -10,8 +10,11 @@ angular.module('hockeyStats', ['ui.router', 'templates'])
 			templateUrl: 'home/_home.html',
 			controller: 'MainCtrl',
 			resolve: {
-				playerPromise: ['players', function(players){
-					return players.getAll();
+				// playerPromise: ['players', function(players){
+				// 	return players.getAll();
+				// }],
+				defaultPlayerPromise: ['players', function(players){
+					return players.getPlayerDataByTeam("Chicago");
 				}],
 				teamPromise: ['teams', function(teams){
 					return teams.getAll();
