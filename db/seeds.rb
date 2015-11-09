@@ -6,7 +6,7 @@ def convert_time_on_ice(str)
 	minutes * 60 + seconds
 end
 
-CSV.foreach(Rails.root.join('db', '2014-15-5v5.csv'),headers:true,header_converters: :symbol) do |player|
+CSV.foreach(Rails.root.join('db', '2013-2015-5v5-and-close.csv'),headers:true,header_converters: :symbol) do |player|
   player_data = {
 	  :season => player[:season],
 		:situation => player[:situation],

@@ -4,7 +4,7 @@ angular.module('hockeyStats')
 	$scope.players = players.players;
 	$scope.teams = players.teams;
 
-	$scope.calculateTOI = function(player) {
+	$scope.formatTOI = function(player) {
 		var formattedSeconds;
 		if (player.toi % 60 < 10) {
 			formattedSeconds = "0" + player.toi % 60;
