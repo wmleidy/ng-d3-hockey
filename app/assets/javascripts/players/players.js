@@ -13,7 +13,6 @@ angular.module('hockeyStats')
 
 	o.getTeams = function() {
 		return $http.get('/players/teams.json').success(function(data){
-			console.log(data);
 			angular.copy(data, o.teams);
 		});
 	};

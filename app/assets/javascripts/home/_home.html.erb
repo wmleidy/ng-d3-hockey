@@ -7,6 +7,14 @@
 	<option ng-repeat="team in teams">{{team}}</option>
 </select>
 
+<select ng-model="season">
+	<option ng-repeat="season in seasons">{{season}}</option>
+</select>
+
+<select ng-model="situation">
+	<option ng-repeat="situation in situations">{{situation}}</option>
+</select>
+
 <table>
 	<tr>
 		<th>Rank</th>
@@ -28,7 +36,7 @@
 		<th>OppCF%</th>
 		<th>CF60RelTm</th>
 		<th>CA60RelTm</th>
-		<th>:CF%RelTm</th>
+		<th>CF%RelTm</th>
 		<th>CSh%</th>
 		<th>CSv%</th>
 		<th>CPDO</th>
@@ -62,57 +70,57 @@
 		<th>OZFO</th>
 	</tr>
 
-	<tr ng-repeat="player in players | filter:team">
-		<td>{{$index + 1}}</td>
-		<td>{{player.name}}</td>
-		<td>{{player.team}}</td>
-		<td>{{player.pos}}</td>
-		<td>{{player.gp}}</td>
-		<td>{{player.toi}}</td>
-		<td>{{player.cf}}</td>
-		<td>{{player.ca}}</td>
-		<td>{{player.cf60}}</td>
-		<td>{{player.ca60}}</td>
-		<td>{{player.cf_per}}</td>
-		<td>{{player.tmcf60}}</td>
-		<td>{{player.tmca60}}</td>
-		<td>{{player.tmcf_per}}</td>
-		<td>{{player.oppcf60}}</td>
-		<td>{{player.oppca60}}</td>
-		<td>{{player.oppcf_per}}</td>
-		<td>{{player.cf60reltm}}</td>
-		<td>{{player.ca60reltm}}</td>
-		<td>{{player.cf_per_reltm}}</td>
-		<td>{{player.csh_per}}</td>
-		<td>{{player.csv_per}}</td>
-		<td>{{player.cpdo}}</td>
-		<td>{{player.gf}}</td>
-		<td>{{player.ga}}</td>
-		<td>{{player.gf60}}</td>
-		<td>{{player.ga60}}</td>
-		<td>{{player.gf_per}}</td>
-		<td>{{player.tmgf60}}</td>
-		<td>{{player.tmga60}}</td>
-		<td>{{player.tmgf_per}}</td>
-		<td>{{player.oppgf60}}</td>
-		<td>{{player.oppga60}}</td>
-		<td>{{player.oppgf_per}}</td>
-		<td>{{player.gf60reltm}}</td>
-		<td>{{player.ga60reltm}}</td>
-		<td>{{player.gf_per_reltm}}</td>
-		<td>{{player.igoals}}</td>
-		<td>{{player.iassists}}</td>
-		<td>{{player.ipoints}}</td>
-		<td>{{player.ishot_per}}</td>
-		<td>{{player.igoals60}}</td>
-		<td>{{player.iassists60}}</td>
-		<td>{{player.ipoints60}}</td>
-		<td>{{player.igp}}</td>
-		<td>{{player.iap}}</td>
-		<td>{{player.ipp}}</td>
-		<td>{{player.totfo}}</td>
-		<td>{{player.nzfo}}</td>
-		<td>{{player.dzfo}}</td>
-		<td>{{player.ozfo}}</td>
-	</tr>
-</table>
+	<tr ng-repeat="player in players | filter:team | filter:season | filter:situation | orderBy:name">
+		<td>{{ $index + 1 }}</td>
+		<td>{{ player.name }}</td>
+		<td>{{ player.team }}</td>
+		<td>{{ player.pos }}</td>
+		<td>{{ player.gp }}</td>
+		<td>{{ formatTOI(player) }}</td>
+		<td>{{ player.cf }}</td>
+		<td>{{ player.ca }}</td>
+		<td>{{ player.cf60 }}</td>
+		<td>{{ player.ca60 }}</td>
+		<td>{{ player.cf_per }}</td>
+		<td>{{ player.tmcf60 }}</td>
+		<td>{{ player.tmca60 }}</td>
+		<td>{{ player.tmcf_per }}</td>
+		<td>{{ player.oppcf60 }}</td>
+		<td>{{ player.oppca60 }}</td>
+		<td>{{ player.oppcf_per }}</td>
+		<td>{{ player.cf60reltm }}</td>
+		<td>{{ player.ca60reltm }}</td>
+		<td>{{ player.cf_per_reltm }}</td>
+		<td>{{ player.csh_per }}</td>
+		<td>{{ player.csv_per }}</td>
+		<td>{{ player.cpdo }}</td>
+		<td>{{ player.gf }}</td>
+		<td>{{ player.ga }}</td>
+		<td>{{ player.gf60 }}</td>
+		<td>{{ player.ga60 }}</td>
+		<td>{{ player.gf_per }}</td>
+		<td>{{ player.tmgf60 }}</td>
+		<td>{{ player.tmga60 }}</td>
+		<td>{{ player.tmgf_per }}</td>
+		<td>{{ player.oppgf60 }}</td>
+		<td>{{ player.oppga60 }}</td>
+		<td>{{ player.oppgf_per }}</td>
+		<td>{{ player.gf60reltm }}</td>
+		<td>{{ player.ga60reltm }}</td>
+		<td>{{ player.gf_per_reltm }}</td>
+		<td>{{ player.igoals }}</td>
+		<td>{{ player.iassists }}</td>
+		<td>{{ player.ipoints }}</td>
+		<td>{{ player.ishot_per }}</td>
+		<td>{{ player.igoals60 }}</td>
+		<td>{{ player.iassists60 }}</td>
+		<td>{{ player.ipoints60 }}</td>
+		<td>{{ player.igp }}</td>
+		<td>{{ player.iap }}</td>
+		<td>{{ player.ipp }}</td>
+		<td>{{ player.totfo }}</td>
+		<td>{{ player.nzfo }}</td>
+		<td>{{ player.dzfo }}</td>
+		<td>{{ player.ozfo }}</td>
+	</tr> 
+</table> 
