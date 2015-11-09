@@ -64,3 +64,34 @@ CSV.foreach(Rails.root.join('db', '2013-2015-5v5-and-close.csv'),headers:true,he
 
   Player.create!(player_data)
 end
+
+CSV.foreach(Rails.root.join('db', 'teams-2013-2015.csv'),headers:true,header_converters: :symbol) do |team|
+  team_data = {
+	  :season => team[:season],
+		:situation => team[:situation],
+		:name => team[:name],
+		:gp => team[:gp].to_i,
+		:toi => convert_time_on_ice(team[:toi]),
+		:gf => team[:gf].to_i,
+		:ga => team[:ga].to_i,
+		:gf60 => team[:gf60].to_f,
+		:ga60 => team[:ga60].to_f, 
+		:gf_per => team[:gf_per].to_f, 
+		:cf => team[:cf].to_i,
+		:ca => team[:ca].to_i,
+		:cf60 => team[:cf60].to_f,
+		:ca60 => team[:ca60].to_f,
+		:cf_per => team[:cf_per].to_f,
+		:sh_per => team[:sh_per].to_f,
+		:sv_per => team[:sv_per].to_f,
+		:pdo => team[:pdo].to_f,
+		:csh_per => team[:csh_per].to_f,
+		:csv_per => team[:csv_per].to_f,
+		:cpdo => team[:cpdo].to_f,
+		:nzfo_per => team[:nzfo_per].to_f,
+		:dzfo_per => team[:dzfo_per].to_f,
+		:ozfo_per => team[:ozfo_per].to_f
+  }
+
+  Team.create!(team_data)
+end

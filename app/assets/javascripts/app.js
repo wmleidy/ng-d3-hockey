@@ -13,8 +13,11 @@ angular.module('hockeyStats', ['ui.router', 'templates'])
 				playerPromise: ['players', function(players){
 					return players.getAll();
 				}],
-				teamPromise: ['players', function(players){
-					return players.getTeams();
+				teamPromise: ['teams', function(teams){
+					return teams.getAll();
+				}],
+				teamNamePromise: ['teams', function(teams){
+					return teams.getNames();
 				}]
 			}
 		});
