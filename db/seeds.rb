@@ -32,7 +32,7 @@ CSV.foreach(Rails.root.join('db', '2013-2015-5v5-and-close.csv'),headers:true,he
 		:csh_per => player[:csh_per].to_f,
 		:csv_per => player[:csv_per].to_f,
 		:cpdo => player[:cpdo].to_f,
-		:totfo => player[:totof].to_i,
+		:totfo => player[:totfo].to_i,
 		:nzfo => player[:nzfo].to_i,
 		:dzfo => player[:dzfo].to_i,
 		:ozfo => player[:ozfo].to_i,
