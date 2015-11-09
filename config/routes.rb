@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   resources :teams, only: [:index]
   get '/teams/names' => 'teams#team_names'
 
+  get '/players/search' => 'players#search'
+
   # Pathway?
   # resources :seasons, only: [:create, :index, :show] do
   #   resources :teams, only: [:index, :show]
