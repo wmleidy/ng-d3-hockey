@@ -1,8 +1,10 @@
 angular.module('hockeyStats')
-.controller('MainCtrl', ['$scope', 'players', function($scope, players){
-	// syncs our local controller scope with the player data from the 'players' service
+.controller('MainCtrl', ['$scope', 'players', 'teams', function($scope, players, teams){
+	// syncs our local controller scope with the player and team data from the services
 	$scope.players = players.players;
-	$scope.teams = players.teams;
+	$scope.team_stats = teams.team_stats;
+	$scope.team_names = teams.team_names;
+
 	$scope.seasons = ['2014-2015', '2013-2014'];
 	$scope.situations = ['5v5 All', '5v5 Close'];
 
@@ -16,7 +18,7 @@ angular.module('hockeyStats')
 		return String(Math.floor(player.toi / 60)) + ":" + formattedSeconds;
 	};
 
-	$scope.team = 'Chicago';
+	$scope.team_name = 'Chicago';
 	$scope.season = '2014-2015';
 	$scope.situation = '5v5 All';
 }])
