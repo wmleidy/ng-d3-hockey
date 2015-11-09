@@ -8,14 +8,15 @@ angular.module('hockeyStats')
 	$scope.seasons = ['2014-2015', '2013-2014'];
 	$scope.situations = ['5v5 All', '5v5 Close'];
 
-	$scope.formatTOI = function(player) {
+	$scope.formatTOI = function(thing) {
+		// a bad example of cheating with type looseness in JavaScript
 		var formattedSeconds;
-		if (player.toi % 60 < 10) {
-			formattedSeconds = "0" + player.toi % 60;
+		if (thing.toi % 60 < 10) {
+			formattedSeconds = "0" + thing.toi % 60;
 		} else {
-			formattedSeconds = player.toi % 60;
+			formattedSeconds = thing.toi % 60;
 		}
-		return String(Math.floor(player.toi / 60)) + ":" + formattedSeconds;
+		return String(Math.floor(thing.toi / 60)) + ":" + formattedSeconds;
 	};
 
 	$scope.team_name = 'Chicago';
