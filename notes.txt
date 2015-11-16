@@ -1,0 +1,36 @@
+Good sites for raw stats, pullable as CSVs using spreadsheet software:
+http://stats.hockeyanalysis.com/
+http://www.puckalytics.com/  (much of the same stats, more modern interface)
+
+***
+
+Excellent intro to advanced hockey stats (all bullet points below from this article):
+https://mapleleafshotstove.com/2014/08/05/introduction-to-advanced-statistics/
+
+Why use Corsi/Fenwick?
+
+"The significantly greater number of Corsi events that occur mean that we generate large sample sizes far more quickly and we get a better representation of talent far more quickly. With 20 games of data, goals are a very poor predictor of future performance but Corsi or Fenwick are far better predictors. This is true at both the team and player level. The greater number of events means we can draw conclusions far more quickly, which is a significant reason why people use Corsi and Fenwick."
+
+Shooting percentage adjusted by player is the one significant counter-argument to the accuracy of Corsi/Fenwick metrics (Sidney Crosby over several years shoots at 10%, whereas grinders shoot near 6%). The white whale of "shot quality" (cf. advanced soccer analytics) probably has an impact too, but as of now there's no convenient to measure this using the NHL-provided statistics.
+
+"The differences [in shooting percentages] at the team level are less significant than at the player level, though, and thus Corsi is more effective as a team evaluation tool."
+
+"Some people use PDO as an indication of luck or good/bad fortune by looking at how much PDO deviates from 100%, but one must take into consideration the quality of goaltending the player plays in front of or the players’ ability to drive on-ice shooting percentage. A PDO of 102% does not necessarily mean the player is lucky. Gaborik’s PDO over the last 7 seasons is 103.1%, while Crosby’s is 102.8%."
+
+Game state (5-on-5 versus other situations) and score effects (close game, team leading) have a measureable impact on many things, e.g. "a team that has a lead gives up shots at a higher rate than they do in other situations but also has a higher save percentage, indication the shots they give up are of lower quality." (Only ~10% of the teams in the league have a team Corsi over 50% when leading and only ~10% of the teams in the league have a team Corsi below 50% when trailing...this is because "when players play more aggressive offensive hockey when trying to play catch up, they give up more odd-man rushes against resulting in higher quality shots against and a lower save percentage. The opposite is true when a team plays more conservative defensive hockey when protecting a lead.")
+
+"By far the only usage statistic that really needs to be taken under significant consideration in player evaluation is quality of teammates (QoT), i.e. zone starts and quality of competition (QoC) have minimal statistically impact."
+
+"WOWY [arguably the most important advanced stat] stands for With Or Without You and looks at how players perform when playing on the ice together and when playing apart from each other. The value of WOWY’s is they tell us who is the more important player and who is making who better." (example given: Bozak without Kessel is awful, while Kessel without Bozak is still very good.)
+
+"Like WOWY’s, IPP [Individual Points Percentage] can help us determine which players are integral to their teams offense when they are on the ice and which players are more bystanders when it comes to offensive production."
+
+***
+
+Ideas of things to examine:
+
+1) Average TOI versus a player's CF% (in relation to team Corsi)--this answers the question of whether the strongest advanced stats players are the ones getting the most (5-on-5) ice time. (Graph TOI as bars from first to last, overlay second graph with horizontal line at team Corsi average with individual player data points above and below the line.)
+
+2) Look at who raises their game in "clutch" (Corsi Close) situations?
+
+3) Straight graph of CF%RelTM (Corsi Percentage Relative Teammates during 5-on-5 and during special team situations)
