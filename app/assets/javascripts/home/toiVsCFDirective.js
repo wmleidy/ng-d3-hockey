@@ -18,40 +18,230 @@ angular.module('hockeyStats')
         var rawSvg=elem.find('svg');
         var svg = d3.select(rawSvg[0]);
 
+        var transition = 1500
+
+
         scope.$watchCollection(playersExp, function(newVal, oldVal){
-          selectedPlayerDataToPlot=newVal;
-          // console.log(selectedPlayerDataToPlot);
-          // redrawBarChart();
+          if(newVal != oldVal) {
+            selectedPlayerDataToPlot=newVal;
+            console.log(selectedPlayerDataToPlot);
+            update(newVal)
+          }
         });
 
-        function setChartParameters(){
+        // scope.$watchGroup(["players", "team_stats"],function(newValues) {
+        //   console.log(newValues);
+        //   // console.log(newValues);
+        //   // newValues array contains the current values of the watch expressions
+        //   // with the indexes matching those of the watchExpression array
+        //   // i.e.
+        //   // newValues[0] -> $scope.foo
+        //   // and
+        //   // newValues[1] -> $scope.bar
+        // });
+
+        // $scope.$watch(function() {
+        //   return angular.toJson([$scope.columns, $scope.ANOTHER_ARRAY, ... ]);
+        // },
+        // function() {
+        //   // some value in some array has changed
+        // }
+
+        function update(data) {
+          setChartParameters(data);
+
+
+          svg.select(".datapoint")
+            .attr('cx', function(d) { return xScale(d.name); })
+            .attr('cy', function(d) { return yScaleRight(d.cf_per); });
+
+          var rect = svg.select("#bars").selectAll("rect")
+            .data(data);
+
+          rect.enter().append("rect")
+            .attr("transform",function(d,i){
+              return "translate("+xScale(d.name)+", 0)";
+            })
+            .attr("x", function(d){
+              return xScale.rangeBand() - rawSvg[0].clientWidth / 35
+            })
+            .attr("y", function(d) {
+              return yScaleLeft(d.toi / d.gp / 60);
+            })
+            .attr("height", 0)
+            .transition()
+            .duration(transition)
+            .attr("height", function(d) {
+              return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
+            })
+            .attr("width", xScale.rangeBand());
+
+          rect.transition()
+            .duration(transition)
+            .attr("transform",function(d,i){
+              return "translate("+xScale(d.name)+", 0)";
+            })
+            .attr("y", function(d) {
+              return yScaleLeft(d.toi / d.gp / 60);
+            })
+            .attr("x", function(d){
+              return xScale.rangeBand() - rawSvg[0].clientWidth / 35
+            })
+            .attr("height", function(d) {
+              return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
+            })
+            .attr("width", xScale.rangeBand());
+
+          rect.exit().remove();
+
+          var barLabels = svg.select("#bars").selectAll(".bar-label")
+            .data(data);
+
+          barLabels.enter().append("text")
+            .attr("class", "bar-label")
+            .attr("text-anchor", "middle")
+            .attr("dy", "1em")
+            .style("font-size","10px")
+            .style("fill","white")
+            .attr("x", function(d) { return xScale(d.name) + xScale.rangeBand()/2; })
+            .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
+            .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
+
+          barLabels.transition()
+            .duration(transition)
+            .attr("text-anchor", "middle")
+            .attr("dy", "1em")
+            .style("font-size","10px")
+            .style("fill","white")
+            .attr("x", function(d) { return xScale(d.name) + xScale.rangeBand()/2; })
+            .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
+            .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
+
+          barLabels.exit().remove();
+
+          svg.selectAll(".x.axis")
+            .call(xAxisGen)
+            .selectAll("text")
+            .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate(-65)" );
+
+          svg.select("#lines").select("." + pathClass).transition()
+            .duration(transition)
+            .attr("d", mainLine(data))
+            .attr("stroke-width", 2)
+            // .interpolate("linear");
+            //   "stroke-width": 2,
+            //   "fill": "none",
+            //   "class": pathClass,
+            //   "transform": "translate(" + rawSvg[0].clientWidth/65 + ",0)";
+
+          // svg.append("svg:path")
+            // .attr({
+            //   d: mainLine(data),
+            //   "stroke": "red",
+            //   "stroke-width": 2,
+            //   "fill": "none",
+            //   "class": pathClass,
+            //   "transform": "translate(" + rawSvg[0].clientWidth/65 + ",0)"
+            // });
+
+          console.log(selectedTeamDataToPlot[0]["cf_per"])
+
+          var averageLineTip = d3.tip()
+                    .attr('class', 'd3-avg-line-tip')
+                    .offset([-rawSvg.attr("height")/7, rawSvg[0].clientWidth/3.5])
+                    .html(function() {
+                      return ("Team CF Average: " + selectedTeamDataToPlot[0]["cf_per"] + "%")
+                    });
+          svg.call(averageLineTip);
+
+          svg.select(".x.average-line")
+            .attr("transform", "translate(0," + yScaleRight(selectedTeamDataToPlot[0]["cf_per"]) + ")")
+            .call(xAxisLinearGen)
+            .on('mouseover', averageLineTip.show)
+            .on('mouseout', averageLineTip.hide)
+
+          // svg.append("svg:g")
+          //   .attr("class", "x average-line")
+          //   .attr("transform", "translate(0," + yScaleRight(selectedTeamDataToPlot[0]["cf_per"]) + ")")
+          //   .call(xAxisLinearGen)
+          //   .on('mouseover', averageLineTip.show)
+          //   .on('mouseout', averageLineTip.hide)
+
+          svg.selectAll(".y.axis")
+            .attr("transform", "translate(100,0)")
+            .call(yAxisGenLeft);
+
+          svg.selectAll(".y.axis-right")
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
+            .call(yAxisGenRight);
+
+
+          var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([0, 0])
+                    .html(function(d) {
+                      return (d.cf_per + "%")
+                    });
+          svg.call(tip);
+
+          var circles = svg.selectAll(".datapoint")
+            .data(data);
+
+          circles
+            .enter().append("circle")
+            .attr('class', 'datapoint')
+            .attr('cx', function(d) { return xScale(d.name); })
+            .attr('cy', function(d) { return yScaleRight(d.cf_per); })
+            .attr('r', 4)
+            .attr('fill', 'white')
+            .attr('stroke', 'red')
+            .attr('stroke-width', '2')
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth / 65 ) + ",0)")
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide);
+
+          circles.transition()
+            .duration(transition)
+            .attr('cx', function(d) { return xScale(d.name); })
+            .attr('cy', function(d) { return yScaleRight(d.cf_per); })
+            .attr('r', 4)
+            .attr('fill', 'white')
+            .attr('stroke', 'red')
+            .attr('stroke-width', '2')
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth / 65 ) + ",0)")
+
+
+          circles
+            .exit().remove();
+        }
+
+        function setChartParameters(data){
           xScale = d3.scale.ordinal()
-                    .domain(selectedPlayerDataToPlot.map(function(d){ return d.name; }))
+                    .domain(data.map(function(d){ return d.name; }))
                     .rangeRoundBands([padding + 5, (rawSvg[0].clientWidth - padding)], .1);
           xScaleLinear = d3.scale.ordinal()
                     .rangeRoundBands([padding + 5, (rawSvg[0].clientWidth - padding)], .1);
-          // xScaleLinear = d3.scale.linear()
-          //           .domain(selectedPlayerDataToPlot.map(function(d){ return d.name; }))
-          //           // .domain([salesDataToPlot[0].hour, salesDataToPlot[salesDataToPlot.length - 1].hour])
-          //           .range([padding + 5, rawSvg[0].clientWidth - padding]);
           yScaleLeft = d3.scale.linear()
-                    .domain([0, d3.max(selectedPlayerDataToPlot, function (d) {
+                    .domain([0, d3.max(data, function (d) {
                       return (d.toi / d.gp / 60);
                     })])
                     .range([rawSvg.attr("height") - bottomPadding, 0]);
           yScaleRight = d3.scale.linear()
                     .domain([
-                      d3.min(selectedPlayerDataToPlot, function (d) {
+                      d3.min(data, function (d) {
                         return (d.cf_per);
                       }) * 0.95,
-                      d3.max(selectedPlayerDataToPlot, function (d) {
+                      d3.max(data, function (d) {
                       return (d.cf_per);
                     }) * 1.05 ])
                     .range([rawSvg.attr("height") - bottomPadding, 0]);
           xAxisGen = d3.svg.axis()
                       .scale(xScale)
                       .orient("bottom")
-                      .ticks(selectedPlayerDataToPlot.length - 1);
+                      .ticks(data.length - 1);
           xAxisLinearGen = d3.svg.axis()
                       .scale(xScaleLinear)
                       .orient("bottom")
@@ -80,9 +270,9 @@ angular.module('hockeyStats')
                       })
         }
 
-        function drawBarAndLineChart() {
+        function drawBarAndLineChart(data) {
 
-          setChartParameters();
+          setChartParameters(data);
 
           var tip = d3.tip()
                     .attr('class', 'd3-tip')
@@ -101,15 +291,16 @@ angular.module('hockeyStats')
           svg.call(averageLineTip);
 
           nsvg = d3.select("#bar-chart").select('svg')
-          var bar = nsvg.selectAll("g")
-                      .data(selectedPlayerDataToPlot)
-                    .enter()
                       .append("g")
-                      .attr("transform",function(d,i){
-                        return "translate("+xScale(d.name)+", 0)";
-                      });
+                      .attr("id", "bars")
 
-          bar.append("rect")
+          var bar = nsvg.selectAll("#bars")
+                      .data(data);
+
+          bar.enter().append("rect")
+            .attr("transform",function(d,i){
+              return "translate("+xScale(d.name)+", 0)";
+            })
             .attr("y", function(d) {
               return yScaleLeft(d.toi / d.gp / 60);
             })
@@ -121,10 +312,12 @@ angular.module('hockeyStats')
             })
             .attr("width", xScale.rangeBand());
 
-          svg.selectAll("text")
-            .data(selectedPlayerDataToPlot)
+          bar.exit().remove();
+
+          svg.select("#bars").selectAll("text")
+            .data(data)
            .enter().append("text")
-            .attr("class", "bar")
+            .attr("class", "bar-label")
             .attr("text-anchor", "middle")
             .attr("dy", "1em")
             .style("font-size","10px")
@@ -176,9 +369,9 @@ angular.module('hockeyStats')
             .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
             .text("Corsi For (%)");
 
-          svg.append("svg:path")
+          svg.append("g").attr("id", "lines").append("svg:path")
             .attr({
-              d: mainLine(selectedPlayerDataToPlot),
+              d: mainLine(data),
               "stroke": "red",
               "stroke-width": 2,
               "fill": "none",
@@ -187,8 +380,13 @@ angular.module('hockeyStats')
             });
 
           // circles on line chart
-          svg.selectAll(".dot")
-            .data(selectedPlayerDataToPlot)
+          circles = svg.selectAll(".dot")
+            .data(data);
+
+          circles
+            .exit().remove();
+
+          circles
             .enter().append("circle")
             .attr('class', 'datapoint')
             .attr('cx', function(d) { return xScale(d.name); })
@@ -201,18 +399,10 @@ angular.module('hockeyStats')
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
-          // svg.append("svg:path")
-          //   .attr({
-          //     d: averageLine(selectedTeamDataToPlot),
-          //     "stroke": "red",
-          //     "stroke-width": 1,
-          //     "fill": "none",
-          //     "class": pathClass,
-          //     "transform": "translate(" + rawSvg[0].clientWidth/55 + ",0)"
-          //   });
         }
 
-        drawBarAndLineChart();
+        drawBarAndLineChart(selectedPlayerDataToPlot);
+
       }
     }
   })
