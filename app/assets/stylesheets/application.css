@@ -61,7 +61,7 @@ h1{
 }
 .average-line path {
   fill: none;
-  stroke: blue;
+  stroke: red;
   stroke-width: 3;
   stroke-dasharray: 4,4;
   shape-rendering:crispEdge;
