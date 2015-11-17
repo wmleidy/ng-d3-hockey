@@ -59,3 +59,18 @@ h1{
 .title-right {
   fill: red;
 }
+.average-line path {
+  fill: none;
+  stroke: blue;
+  stroke-width: 3;
+  stroke-dasharray: 4,4;
+  shape-rendering:crispEdge;
+}
+.d3-avg-line-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}

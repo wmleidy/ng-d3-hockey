@@ -27,7 +27,8 @@ angular.module('hockeyStats')
         function setChartParameters(){
           xScale = d3.scale.ordinal()
                     .domain(selectedPlayerDataToPlot.map(function(d){ return d.name; }))
-                    // .rangeRoundBands([0, rawSvg[0].clientWidth], .1);
+                    .rangeRoundBands([padding + 5, (rawSvg[0].clientWidth - padding)], .1);
+          xScaleLinear = d3.scale.ordinal()
                     .rangeRoundBands([padding + 5, (rawSvg[0].clientWidth - padding)], .1);
           // xScaleLinear = d3.scale.linear()
           //           .domain(selectedPlayerDataToPlot.map(function(d){ return d.name; }))
@@ -51,6 +52,10 @@ angular.module('hockeyStats')
                       .scale(xScale)
                       .orient("bottom")
                       .ticks(selectedPlayerDataToPlot.length - 1);
+          xAxisLinearGen = d3.svg.axis()
+                      .scale(xScaleLinear)
+                      .orient("bottom")
+                      .tickSize(0);
           yAxisGenLeft = d3.svg.axis()
                       .scale(yScaleLeft)
                       .orient("left")
@@ -59,7 +64,7 @@ angular.module('hockeyStats')
                       .scale(yScaleRight)
                       .orient("right")
                       .ticks(5);
-          lineFun = d3.svg.line()
+          mainLine = d3.svg.line()
                       .x(function (d) {
                         return xScale(d.name);
                       })
@@ -75,7 +80,7 @@ angular.module('hockeyStats')
                       })
         }
 
-        function drawBarChart() {
+        function drawBarAndLineChart() {
 
           setChartParameters();
 
@@ -85,8 +90,15 @@ angular.module('hockeyStats')
                     .html(function(d) {
                       return (d.cf_per + "%")
                     });
-
           svg.call(tip);
+
+          var averageLineTip = d3.tip()
+                    .attr('class', 'd3-avg-line-tip')
+                    .offset([-rawSvg.attr("height")/7, rawSvg[0].clientWidth/3.5])
+                    .html(function() {
+                      return ("Team CF Average: " + selectedTeamDataToPlot[0]["cf_per"] + "%")
+                    });
+          svg.call(averageLineTip);
 
           nsvg = d3.select("#bar-chart").select('svg')
           var bar = nsvg.selectAll("g")
@@ -124,12 +136,19 @@ angular.module('hockeyStats')
           svg.append("svg:g")
             .attr("class", "x axis")
             .attr("transform", "translate(0,275)")
-            .call(xAxisGen)//;
+            .call(xAxisGen)
             .selectAll("text")
             .style("text-anchor", "end")
               .attr("dx", "-.8em")
               .attr("dy", ".15em")
               .attr("transform", "rotate(-65)" );
+
+          svg.append("svg:g")
+            .attr("class", "x average-line")
+            .attr("transform", "translate(0," + yScaleRight(selectedTeamDataToPlot[0]["cf_per"]) + ")")
+            .call(xAxisLinearGen)
+            .on('mouseover', averageLineTip.show)
+            .on('mouseout', averageLineTip.hide)
 
           svg.append("svg:g")
             .attr("class", "y axis")
@@ -159,7 +178,7 @@ angular.module('hockeyStats')
 
           svg.append("svg:path")
             .attr({
-              d: lineFun(selectedPlayerDataToPlot),
+              d: mainLine(selectedPlayerDataToPlot),
               "stroke": "red",
               "stroke-width": 2,
               "fill": "none",
@@ -167,6 +186,7 @@ angular.module('hockeyStats')
               "transform": "translate(" + rawSvg[0].clientWidth/65 + ",0)"
             });
 
+          // circles on line chart
           svg.selectAll(".dot")
             .data(selectedPlayerDataToPlot)
             .enter().append("circle")
@@ -192,7 +212,7 @@ angular.module('hockeyStats')
           //   });
         }
 
-        drawBarChart();
+        drawBarAndLineChart();
       }
     }
   })
