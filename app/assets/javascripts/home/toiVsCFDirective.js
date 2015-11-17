@@ -24,7 +24,6 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(playersExp, function(newVal, oldVal){
           if(newVal != oldVal) {
-            console.log("first")
             update(newVal);
           }
         });
@@ -47,14 +46,6 @@ angular.module('hockeyStats')
         //   // and
         //   // newValues[1] -> $scope.bar
         // });
-
-        // $scope.$watch(function() {
-        //   return angular.toJson([$scope.columns, $scope.ANOTHER_ARRAY, ... ]);
-        // },
-        // function() {
-        //   // some value in some array has changed
-        // }
-
 
         function setChartParameters(data){
           xScale = d3.scale.ordinal()
@@ -112,22 +103,45 @@ angular.module('hockeyStats')
 
           setChartParameters(data);
 
-          var tip = d3.tip()
-                    .attr('class', 'd3-tip')
-                    .offset([0, 0])
-                    .html(function(d) {
-                      return (d.cf_per + "%");
-                    });
-          svg.call(tip);
+          // Axis + Labels
+          svg.append("svg:g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(" + (100 - paddingLeft) + ",275)")
+            .call(xAxisGen)
+            .selectAll("text")
+            .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate(-65)" );
 
-          var averageLineTip = d3.tip()
-                    .attr('class', 'd3-avg-line-tip')
-                    .offset([-rawSvg.attr("height")/7, rawSvg[0].clientWidth/3.5])
-                    .html(function() {
-                      return ("Team CF Average: " + selectedTeamDataToPlot[0].cf_per + "%");
-                    });
-          svg.call(averageLineTip);
+          svg.append("svg:g")
+            .attr("class", "y axis-left")
+            .attr("transform", "translate(100,0)")
+            .call(yAxisGenLeft);
 
+          svg.append("text")
+            .attr("class", "left y label")
+            // .attr("class", "y label axis-right")
+            .attr("text-anchor", "end")
+            .attr("x", -85)
+            .attr("y", 60)
+            .attr("dy", ".75em")
+            .attr("transform", "rotate(-90)")
+            .text("Time on Ice (minutes)");
+
+          svg.append("svg:g")
+            .attr("class", "y axis-right")
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
+            .call(yAxisGenRight);
+
+          svg.append("text")
+            .attr("class", "y label title-right")
+            .attr("text-anchor", "end")
+            .attr("dy", ".75em")
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
+            .text("Corsi For (%)");
+
+          // Bar Chart
           var nsvg = d3.select("#bar-chart").select('svg')
                       .append("g")
                       .attr("id", "bars");
@@ -152,6 +166,7 @@ angular.module('hockeyStats')
 
           bar.exit().remove();
 
+          // Bar Label
           svg.select("#bars").selectAll("text")
             .data(data)
            .enter().append("text")
@@ -164,49 +179,7 @@ angular.module('hockeyStats')
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
             .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
 
-          svg.append("svg:g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(" + (100 - paddingLeft) + ",275)")
-            .call(xAxisGen)
-            .selectAll("text")
-            .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-65)" );
-
-          svg.append("svg:g")
-            .attr("class", "x average-line")
-            .attr("transform", "translate(" + (100 - paddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
-            .call(xAxisLinearGen)
-            .on('mouseover', averageLineTip.show)
-            .on('mouseout', averageLineTip.hide);
-
-          svg.append("svg:g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(100,0)")
-            .call(yAxisGenLeft);
-
-          svg.append("text")
-            .attr("class", "left y label")
-            .attr("text-anchor", "end")
-            .attr("x", -85)
-            .attr("y", 60)
-            .attr("dy", ".75em")
-            .attr("transform", "rotate(-90)")
-            .text("Time on Ice (minutes)");
-
-          svg.append("svg:g")
-            .attr("class", "y axis-right")
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
-            .call(yAxisGenRight);
-
-          svg.append("text")
-            .attr("class", "y label title-right")
-            .attr("text-anchor", "end")
-            .attr("dy", ".75em")
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
-            .text("Corsi For (%)");
-
+          // Line Chart
           svg.append("g").attr("id", "lines").append("svg:path")
             .attr({
               d: mainLine(data),
@@ -217,12 +190,18 @@ angular.module('hockeyStats')
               "transform": "translate(" + rawSvg[0].clientWidth/23 + ",0)"
             });
 
-          // circles on line chart
+
+          // - Circles on Line Chart
+          var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .offset([0, 0])
+                    .html(function(d) {
+                      return (d.cf_per + "%");
+                    });
+          svg.call(tip);
+
           var circles = svg.selectAll(".dot")
             .data(data);
-
-          circles
-            .exit().remove();
 
           circles
             .enter().append("circle")
@@ -237,15 +216,48 @@ angular.module('hockeyStats')
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
+          circles
+            .exit().remove();
+
+          // Average Line
+          var averageLineTip = d3.tip()
+                    .attr('class', 'd3-avg-line-tip')
+                    .offset([-rawSvg.attr("height")/7, rawSvg[0].clientWidth/3.5])
+                    .html(function() {
+                      return ("Team CF Average: " + selectedTeamDataToPlot[0].cf_per + "%");
+                    });
+          svg.call(averageLineTip);
+
+          svg.append("svg:g")
+            .attr("class", "x average-line")
+            .attr("transform", "translate(" + (100 - paddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
+            .call(xAxisLinearGen)
+            .on('mouseover', averageLineTip.show)
+            .on('mouseout', averageLineTip.hide);
         }
 
         function update(data) {
+
           setChartParameters(data);
 
-          svg.select(".datapoint")
-            .attr('cx', function(d) { return xScale(d.name); })
-            .attr('cy', function(d) { return yScaleRight(d.cf_per); });
+          // Axis
+          svg.selectAll(".y.axis-left")
+            .attr("transform", "translate(100,0)")
+            .call(yAxisGenLeft);
 
+          svg.selectAll(".y.axis-right")
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
+            .call(yAxisGenRight);
+
+          svg.selectAll(".x.axis")
+            .call(xAxisGen)
+            .selectAll("text")
+            .style("text-anchor", "end")
+              .attr("dx", "-.8em")
+              .attr("dy", ".15em")
+              .attr("transform", "rotate(-65)" );
+
+          // Bar Chart
           var rect = svg.select("#bars").selectAll("rect")
             .data(data);
 
@@ -310,65 +322,11 @@ angular.module('hockeyStats')
 
           barLabels.exit().remove();
 
-          svg.selectAll(".x.axis")
-            .call(xAxisGen)
-            .selectAll("text")
-            .style("text-anchor", "end")
-              .attr("dx", "-.8em")
-              .attr("dy", ".15em")
-              .attr("transform", "rotate(-65)" );
-
+          // Line Chart
           svg.select("#lines").select("." + pathClass).transition()
             .duration(transition)
             .attr("d", mainLine(data))
             .attr("stroke-width", 2);
-            // .interpolate("linear");
-            //   "stroke-width": 2,
-            //   "fill": "none",
-            //   "class": pathClass,
-            //   "transform": "translate(" + rawSvg[0].clientWidth/65 + ",0)";
-
-          // svg.append("svg:path")
-            // .attr({
-            //   d: mainLine(data),
-            //   "stroke": "red",
-            //   "stroke-width": 2,
-            //   "fill": "none",
-            //   "class": pathClass,
-            //   "transform": "translate(" + rawSvg[0].clientWidth/65 + ",0)"
-            // });
-
-          // console.log(selectedTeamDataToPlot[0].cf_per);
-//
-          // var averageLineTip = d3.tip()
-          //           .attr('class', 'd3-avg-line-tip')
-          //           .offset([-rawSvg.attr("height")/7, rawSvg[0].clientWidth/3.5])
-          //           .html(function() {
-          //             return ("Team CF Average: " + selectedTeamDataToPlot[0].cf_per + "%");
-          //           });
-          // svg.call(averageLineTip);
-
-          // svg.select(".x.average-line")
-          //   .attr("transform", "translate(" + (100 - paddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
-          //   .call(xAxisLinearGen)
-          //   .on('mouseover', averageLineTip.show)
-          //   .on('mouseout', averageLineTip.hide);
-
-          // svg.append("svg:g")
-          //   .attr("class", "x average-line")
-          //   .attr("transform", "translate(0," + yScaleRight(selectedTeamDataToPlot[0]["cf_per"]) + ")")
-          //   .call(xAxisLinearGen)
-          //   .on('mouseover', averageLineTip.show)
-          //   .on('mouseout', averageLineTip.hide)
-
-          svg.selectAll(".y.axis")
-            .attr("transform", "translate(100,0)")
-            .call(yAxisGenLeft);
-
-          svg.selectAll(".y.axis-right")
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
-            .call(yAxisGenRight);
-
 
           var tip = d3.tip()
                     .attr('class', 'd3-tip')
@@ -403,7 +361,6 @@ angular.module('hockeyStats')
             .attr('stroke', 'red')
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + (rawSvg[0].clientWidth / 23 ) + ",0)");
-
 
           circles
             .exit().remove();

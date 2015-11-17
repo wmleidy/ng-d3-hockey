@@ -14,8 +14,10 @@
  *= require_tree .
  *= require_self
  */
-.axis path,
-.axis line{
+.axis-left path,
+.axis-left line,
+.axis line,
+.axis path{
   fill: none;
   stroke:black;
   shape-rendering:crispEdge;
@@ -55,6 +57,9 @@ h1{
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+}
+.title-left {
+  fill: red;
 }
 .title-right {
   fill: red;
