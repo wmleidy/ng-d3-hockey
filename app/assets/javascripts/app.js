@@ -16,8 +16,8 @@ angular.module('hockeyStats', ['ui.router', 'templates'])
 				defaultPlayerPromise: ['players', function(players){
 					return players.getPlayerDataByTeam("Chicago");
 				}],
-				teamPromise: ['teams', function(teams){
-					return teams.getAll();
+				deafultTeamPromise: ['teams', function(teams){
+					return teams.getTeamData("Chicago");
 				}],
 				teamNamePromise: ['teams', function(teams){
 					return teams.getNames();

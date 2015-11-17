@@ -14,6 +14,11 @@
  *= require_tree .
  *= require_self
  */
+
+.filters {
+  display: inline-block;
+  margin: 10px 50px 20px 0;
+}
 .axis-left path,
 .axis-left line,
 .axis line,
@@ -41,7 +46,7 @@
   font-size: 10px;
 }
 
-h1{
+#bar-chart h1{
   font-family: sans-serif;
   font-weight: bold;
   font-size: 16px;

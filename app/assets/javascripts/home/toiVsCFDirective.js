@@ -30,8 +30,6 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
           if(newVal != oldVal) {
-            // selectedPlayerDataToPlot=newVal;
-            console.log(newVal);
             updateAvgLine(newVal);
           }
         });
