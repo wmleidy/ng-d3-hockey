@@ -14,14 +14,29 @@
  *= require_tree .
  *= require_self
  */
-.axis path,
-.axis line{
+.axis-left path,
+.axis-left line,
+.axis line,
+.axis path{
   fill: none;
   stroke:black;
   shape-rendering:crispEdge;
 }
 
+.axis-right path,
+.axis-right line{
+  fill: none;
+  stroke:red;
+  shape-rendering:crispEdge;
+}
+
 .axis text{
+  font-family: sans-serif;
+  font-size: 10px;
+}
+
+.axis-right text{
+  fill: red;
   font-family: sans-serif;
   font-size: 10px;
 }
@@ -34,4 +49,33 @@ h1{
 .tick
 {
   stroke-dasharray: 1, 2;
+}
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+.title-left {
+  fill: red;
+}
+.title-right {
+  fill: red;
+}
+.average-line path {
+  fill: none;
+  stroke: red;
+  stroke-width: 3;
+  stroke-dasharray: 4,4;
+  shape-rendering:crispEdge;
+}
+.d3-avg-line-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
 }
