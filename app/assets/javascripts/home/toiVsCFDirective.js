@@ -12,11 +12,14 @@ angular.module('hockeyStats')
         var paddingLeft = 70;
         var paddingRight = 130;
         var bottomPadding = 125;
-        var pathClass="path";
+        var pathClass = "path";
         var xScale, xScaleLinear, yScaleLeft, yScaleRight, xAxisGen, xAxisLinearGen, yAxisGenLeft, yAxisGenRight, mainLine, averageLine;
 
         var d3 = $window.d3;
-        var rawSvg=elem.find('svg');
+        var rawSvg = elem.find('svg');
+        console.log(rawSvg);
+        console.log(rawSvg[0].clientWidth);
+        console.log(rawSvg[0].offsetLeft);
         var svg = d3.select(rawSvg[0]);
 
         var transition = 1500;
@@ -144,21 +147,27 @@ angular.module('hockeyStats')
           // Bar Chart
           var nsvg = d3.select("#bar-chart").select('svg')
                       .append("g")
-                      .attr("id", "bars");
+                      .attr("id", "bars")
+                      // .attr("transform", "translate(" + 10 + ",0)");
 
           var bar = nsvg.selectAll("#bars")
                       .data(data);
 
           bar.enter().append("rect")
             .attr("transform",function(d,i){
-              return "translate("+xScale(d.name)+", 0)";
+              return "translate(" + xScale(d.name) + ", 0)";
             })
             .attr("y", function(d) {
               return yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("x", function(d){
-              return xScale.rangeBand();// - rawSvg[0].clientWidth / 35
+              return xScale.rangeBand();// - rawSvg[0].clientWidth / 95
             })
+            // .attr("x", function(d,i){
+            //   console.log(i);
+            //   return xScale(i);// - rawSvg[0].clientWidth / 95
+            // })
+            // .attr('x', function(d) {return xScale(d.name);})
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
