@@ -1,28 +1,7 @@
-== README
+== NG D3 Hockey - Advanced Hockey Stats Visualization
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The last few years have seen the meteoric rise of advanced stats in hockey. Excellent sites like Puckalytics (which is the source of all the data included here) provide hockey enthusiasts with a wealth of information about the in-game performance of every NHL player beyond just gaudy numbers like goals and assists. But tables of data can be hard for the casual fan to make sense of. Our site tries to bridge this gap by presenting insightful subsets of data in graphical format.
 
-Things you may want to cover:
+In its current incarnation, our site is a single-page app that combines Rails, AngularJS, and D3 to give the user an experience that’s maximally responsive. This is our maiden voyage with Angular and D3, so any feedback would be greatly appreciated.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+- Mat (mliew21396) and Bill (wmleidy)
