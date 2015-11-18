@@ -33,8 +33,6 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
           if(newVal != oldVal) {
-            // selectedPlayerDataToPlot=newVal;
-            console.log(newVal);
             updateAvgLine(newVal);
           }
         });
@@ -142,7 +140,7 @@ angular.module('hockeyStats')
             .attr("text-anchor", "end")
             .attr("dy", ".75em")
             .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
-            .text("Corsi For (%)");
+            .text("Corsi For Percentage (CF%)");
 
           // Bar Chart
           var nsvg = d3.select("#bar-chart").select('svg')

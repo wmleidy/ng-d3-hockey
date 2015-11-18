@@ -11,6 +11,12 @@ angular.module('hockeyStats')
 		});
 	};
 
+	o.getTeamData = function(teamName) {
+		return $http.get('/teams/search.json?team_name=' + teamName).success(function(data){
+			angular.copy(data, o.team_stats);
+		});
+	}
+
 	o.getNames = function() {
 		return $http.get('/teams/names.json').success(function(data){
 			angular.copy(data, o.team_names);

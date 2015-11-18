@@ -7,6 +7,7 @@ angular.module('hockeyStats')
 
 	$scope.seasons = ['2014-2015', '2013-2014'];
 	$scope.situations = ['5v5 All', '5v5 Close'];
+	$scope.positions = ['', 'F', 'D'];
 
 	$scope.formatTOI = function(thing) {
 		// a bad example of cheating with type looseness in JavaScript
@@ -22,9 +23,11 @@ angular.module('hockeyStats')
 	$scope.team_name = 'Chicago';
 	$scope.season = '2014-2015';
 	$scope.situation = '5v5 All';
+	$scope.position = '';
 
 	$scope.selectParams = function() {
 		players.getPlayerDataByTeam($scope.team_name);
+		teams.getTeamData($scope.team_name);
 	};
 
 	// $scope.orderProp = 'cf_per'
