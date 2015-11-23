@@ -162,11 +162,6 @@ angular.module('hockeyStats')
               // return xScale.rangeBand();// - rawSvg[0].clientWidth / 95
               return (100 - paddingLeft);
             })
-            // .attr("x", function(d,i){
-            //   console.log(i);
-            //   return xScale(i);// - rawSvg[0].clientWidth / 95
-            // })
-            // .attr('x', function(d) {return xScale(d.name);})
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
