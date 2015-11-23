@@ -158,8 +158,9 @@ angular.module('hockeyStats')
             .attr("y", function(d) {
               return yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("x", function(d){
-              return xScale.rangeBand();// - rawSvg[0].clientWidth / 95
+            .attr("x", function(d,i){
+              // return xScale.rangeBand();// - rawSvg[0].clientWidth / 95
+              return (100 - paddingLeft);
             })
             // .attr("x", function(d,i){
             //   console.log(i);
