@@ -89,6 +89,5 @@
   border-radius: 2px;
 }
 .table-wrapper {
-  /*overflow: scroll;*/
   overflow: auto;
 }
