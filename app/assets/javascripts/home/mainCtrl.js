@@ -30,5 +30,7 @@ angular.module('hockeyStats')
 		teams.getTeamData($scope.team_name);
 	};
 
+	$scope.teamStats = true;
+	$scope.playerStats = true;
 	// $scope.orderProp = 'cf_per'
 }])
