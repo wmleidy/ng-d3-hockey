@@ -135,6 +135,7 @@ angular.module('hockeyStats')
           svg.append("svg:g")
             .attr("class", "y axis-right")
             .attr("stroke", secondaryColor)
+            .attr("fill", secondaryColor)
             .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
             .call(yAxisGenRight);
 
@@ -411,6 +412,7 @@ angular.module('hockeyStats')
 
           svg.select(".y.axis-right")
             .attr("stroke", secondaryColor)
+            .attr("fill", secondaryColor)
 
           svg.select(".y.label.title-right")
             .attr("fill", secondaryColor)
