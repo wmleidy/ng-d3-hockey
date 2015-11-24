@@ -25,6 +25,8 @@ class Teams < ActiveRecord::Migration
   		t.integer :nzfo_per, precision: 4, scale: 2
   		t.integer :dzfo_per, precision: 4, scale: 2
   		t.integer :ozfo_per, precision: 4, scale: 2
+      t.string  :primary_color
+      t.string  :secondary_color
   	end
   end
 end

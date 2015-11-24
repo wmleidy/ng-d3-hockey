@@ -21,7 +21,8 @@ angular.module('hockeyStats')
         var svg = d3.select(rawSvg[0]);
 
         var transition = 1500;
-
+        var primaryColor = "#000000"
+        var secondaryColor = "#C60C30";
 
         scope.$watchCollection(playersExp, function(newVal, oldVal){
           if(newVal != oldVal) {
@@ -31,19 +32,23 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
           if(newVal != oldVal) {
+            primaryColor = newVal[0].primary_color
+            secondaryColor = newVal[0].secondary_color
+
             updateAvgLine(newVal);
+            updateColorScheme();
           }
         });
 
         // scope.$watchGroup(["players", "team_stats"],function(newValues) {
         //   console.log(newValues);
-        //   // console.log(newValues);
-        //   // newValues array contains the current values of the watch expressions
-        //   // with the indexes matching those of the watchExpression array
-        //   // i.e.
-        //   // newValues[0] -> $scope.foo
-        //   // and
-        //   // newValues[1] -> $scope.bar
+        //   console.log(newValues);
+        //   newValues array contains the current values of the watch expressions
+        //   with the indexes matching those of the watchExpression array
+        //   i.e.
+        //   newValues[0] -> $scope.foo
+        //   and
+        //   newValues[1] -> $scope.bar
         // });
 
         function setChartParameters(data){
@@ -129,6 +134,8 @@ angular.module('hockeyStats')
 
           svg.append("svg:g")
             .attr("class", "y axis-right")
+            .attr("stroke", secondaryColor)
+            .attr("fill", secondaryColor)
             .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
             .call(yAxisGenRight);
 
@@ -136,7 +143,8 @@ angular.module('hockeyStats')
             .attr("class", "y label title-right")
             .attr("text-anchor", "end")
             .attr("dy", ".75em")
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
+            .attr("fill", secondaryColor)
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",200) rotate(90)")
             .text("Corsi For Percentage (CF%)");
 
           // Bar Chart
@@ -160,7 +168,8 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
+            .attr("fill", primaryColor);
 
           bar.exit().remove();
 
@@ -181,7 +190,7 @@ angular.module('hockeyStats')
           svg.append("g").attr("id", "lines").append("svg:path")
             .attr({
               d: mainLine(data),
-              "stroke": "red",
+              "stroke": secondaryColor,
               "stroke-width": 2,
               "fill": "none",
               "class": pathClass,
@@ -207,7 +216,7 @@ angular.module('hockeyStats')
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
+            .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
@@ -227,6 +236,7 @@ angular.module('hockeyStats')
 
           svg.append("svg:g")
             .attr("class", "x average-line")
+            .attr("stroke", secondaryColor)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
             .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
@@ -278,7 +288,7 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
 
           rect
             .transition()
@@ -295,7 +305,7 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
 
           rect.exit().remove();
 
@@ -352,7 +362,6 @@ angular.module('hockeyStats')
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
@@ -365,7 +374,6 @@ angular.module('hockeyStats')
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
 
@@ -386,10 +394,31 @@ angular.module('hockeyStats')
           svg.select(".x.average-line")
             .on('mouseover', averageLineTip.show)
             .on('mouseout', averageLineTip.hide)
+            .attr("stroke", secondaryColor)
             .transition()
             .duration(1500)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
+        }
+
+        function updateColorScheme() {
+          svg = d3.select("#bar-chart").select('svg')
+
+          svg.selectAll("rect")
+            .attr("fill", primaryColor);
+
+          svg.selectAll(".datapoint")
+            .attr('stroke', secondaryColor)
+
+          svg.select(".y.axis-right")
+            .attr("stroke", secondaryColor)
+            .attr("fill", secondaryColor)
+
+          svg.select(".y.label.title-right")
+            .attr("fill", secondaryColor)
+
+          svg.select("#lines").select("path")
+            .attr("stroke", secondaryColor)
         }
 
         drawBarAndLineChart(selectedPlayerDataToPlot);
