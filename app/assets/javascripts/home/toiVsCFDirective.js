@@ -21,7 +21,8 @@ angular.module('hockeyStats')
         var svg = d3.select(rawSvg[0]);
 
         var transition = 1500;
-
+        var primaryColor = "#000000"
+        var secondaryColor = "#C60C30";
 
         scope.$watchCollection(playersExp, function(newVal, oldVal){
           if(newVal != oldVal) {
@@ -101,7 +102,7 @@ angular.module('hockeyStats')
         function drawBarAndLineChart(data) {
 
           setChartParameters(data);
-
+console.log(data)
           // Axis + Labels
           svg.append("svg:g")
             .attr("class", "x axis")
@@ -160,7 +161,8 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
+            .attr("fill", primaryColor);
 
           bar.exit().remove();
 
@@ -278,7 +280,8 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
+            .attr("fill", primaryColor);
 
           rect
             .transition()
@@ -295,7 +298,8 @@ angular.module('hockeyStats')
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
-            .attr("width", xScale.rangeBand());
+            .attr("width", xScale.rangeBand())
+            .attr("fill", primaryColor);
 
           rect.exit().remove();
 

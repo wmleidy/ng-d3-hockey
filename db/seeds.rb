@@ -49,16 +49,16 @@ CSV.foreach(Rails.root.join('db', '2013-2015-5v5-and-close.csv'),headers:true,he
 		:gf => player[:gf].to_i,
 		:ga => player[:ga].to_i,
 		:gf60 => player[:gf60].to_f,
-		:ga60 => player[:ga60].to_f, 
-		:gf_per => player[:gf_per].to_f, 
-		:tmgf60 => player[:tmgf60].to_f, 
-		:tmga60 => player[:tmga60].to_f, 
-		:tmgf_per => player[:tmgf_per].to_f, 
-		:oppgf60 => player[:oppgf60].to_f, 
-		:oppga60 => player[:oppga60].to_f, 
-		:oppgf_per => player[:oppgf_per].to_f, 
-		:gf60reltm => player[:gf60reltm].to_f, 
-		:ga60reltm => player[:ga60reltm].to_f, 
+		:ga60 => player[:ga60].to_f,
+		:gf_per => player[:gf_per].to_f,
+		:tmgf60 => player[:tmgf60].to_f,
+		:tmga60 => player[:tmga60].to_f,
+		:tmgf_per => player[:tmgf_per].to_f,
+		:oppgf60 => player[:oppgf60].to_f,
+		:oppga60 => player[:oppga60].to_f,
+		:oppgf_per => player[:oppgf_per].to_f,
+		:gf60reltm => player[:gf60reltm].to_f,
+		:ga60reltm => player[:ga60reltm].to_f,
 		:gf_per_reltm => player[:gf_per_reltm].to_f
   }
 
@@ -75,8 +75,8 @@ CSV.foreach(Rails.root.join('db', 'teams-2013-2015.csv'),headers:true,header_con
 		:gf => team[:gf].to_i,
 		:ga => team[:ga].to_i,
 		:gf60 => team[:gf60].to_f,
-		:ga60 => team[:ga60].to_f, 
-		:gf_per => team[:gf_per].to_f, 
+		:ga60 => team[:ga60].to_f,
+		:gf_per => team[:gf_per].to_f,
 		:cf => team[:cf].to_i,
 		:ca => team[:ca].to_i,
 		:cf60 => team[:cf60].to_f,
@@ -94,4 +94,9 @@ CSV.foreach(Rails.root.join('db', 'teams-2013-2015.csv'),headers:true,header_con
   }
 
   Team.create!(team_data)
+end
+
+CSV.foreach(Rails.root.join('db', 'team-colors.csv'),headers:true,header_converters: :symbol) do |team|
+	entry = Team.find_by(name: team[:name])
+	entry.update_attributes(team.to_hash)
 end
