@@ -104,7 +104,6 @@ angular.module('hockeyStats')
         }
 
         function drawBarAndLineChart(data) {
-
           setChartParameters(data);
 
           // Axis + Labels
@@ -417,7 +416,7 @@ angular.module('hockeyStats')
           svg.select(".y.label.title-right")
             .attr("fill", secondaryColor)
 
-          svg.select("#lines").select("path")
+          svg.select("#lines").select(".path")
             .attr("stroke", secondaryColor)
         }
 
