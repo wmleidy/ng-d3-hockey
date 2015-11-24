@@ -31,8 +31,6 @@ angular.module('hockeyStats')
         });
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
-          // console.log(newVal[0].primary_color)
-          // console.log(newVal[0].secondary_color)
           if(newVal != oldVal) {
             primaryColor = newVal[0].primary_color
             secondaryColor = newVal[0].secondary_color
@@ -44,13 +42,13 @@ angular.module('hockeyStats')
 
         // scope.$watchGroup(["players", "team_stats"],function(newValues) {
         //   console.log(newValues);
-        //   // console.log(newValues);
-        //   // newValues array contains the current values of the watch expressions
-        //   // with the indexes matching those of the watchExpression array
-        //   // i.e.
-        //   // newValues[0] -> $scope.foo
-        //   // and
-        //   // newValues[1] -> $scope.bar
+        //   console.log(newValues);
+        //   newValues array contains the current values of the watch expressions
+        //   with the indexes matching those of the watchExpression array
+        //   i.e.
+        //   newValues[0] -> $scope.foo
+        //   and
+        //   newValues[1] -> $scope.bar
         // });
 
         function setChartParameters(data){
@@ -108,7 +106,7 @@ angular.module('hockeyStats')
         function drawBarAndLineChart(data) {
 
           setChartParameters(data);
-console.log(data)
+
           // Axis + Labels
           svg.append("svg:g")
             .attr("class", "x axis")
@@ -245,8 +243,7 @@ console.log(data)
         }
 
         function update(data) {
-          // console.log("in update")
-          // console.log(primaryColor)
+
           setChartParameters(data);
 
           // Axis
@@ -291,7 +288,6 @@ console.log(data)
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("width", xScale.rangeBand())
-            // .attr("fill", primaryColor);
 
           rect
             .transition()
@@ -309,7 +305,6 @@ console.log(data)
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("width", xScale.rangeBand())
-            // .attr("fill", primaryColor);
 
           rect.exit().remove();
 
@@ -366,7 +361,6 @@ console.log(data)
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            // .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
@@ -379,7 +373,6 @@ console.log(data)
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            // .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
 
@@ -400,9 +393,9 @@ console.log(data)
           svg.select(".x.average-line")
             .on('mouseover', averageLineTip.show)
             .on('mouseout', averageLineTip.hide)
+            .attr("stroke", secondaryColor)
             .transition()
             .duration(1500)
-            .attr("stroke", secondaryColor)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
         }
@@ -411,28 +404,18 @@ console.log(data)
           svg = d3.select("#bar-chart").select('svg')
 
           svg.selectAll("rect")
-            // .transition()
-            // .duration(1500)
             .attr("fill", primaryColor);
 
           svg.selectAll(".datapoint")
-            // .transition()
-            // .duration(1500)
             .attr('stroke', secondaryColor)
 
           svg.select(".y.axis-right")
-            // .transition()
-            // .duration(1500)
             .attr("stroke", secondaryColor)
 
           svg.select(".y.label.title-right")
-            // .transition()
-            // .duration(1500)
             .attr("fill", secondaryColor)
 
           svg.select("#lines").select("path")
-            // .transition()
-            // .duration(1500)
             .attr("stroke", secondaryColor)
         }
 
