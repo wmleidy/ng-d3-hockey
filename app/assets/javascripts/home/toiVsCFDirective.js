@@ -10,7 +10,7 @@ angular.module('hockeyStats')
         var selectedPlayerDataToPlot = playersExp(scope);
         var selectedTeamDataToPlot = teamExp(scope);
         var yAxisPaddingLeft = 70;
-        var chartPaddingLefft = 100;
+        var chartPaddingLeft = 100;
         var paddingRight = 130;
         var bottomPadding = 125;
         var pathClass = "path";
@@ -105,7 +105,7 @@ angular.module('hockeyStats')
           // Axis + Labels
           svg.append("svg:g")
             .attr("class", "x axis")
-            .attr("transform", "translate(" + (chartPaddingLefft - yAxisPaddingLeft) + ",275)")
+            .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + ",275)")
             .call(xAxisGen)
             .selectAll("text")
             .style("text-anchor", "end")
@@ -115,7 +115,7 @@ angular.module('hockeyStats')
 
           svg.append("svg:g")
             .attr("class", "y axis-left")
-            .attr("transform", "translate(" + chartPaddingLefft + ",0)")
+            .attr("transform", "translate(" + chartPaddingLeft + ",0)")
             .call(yAxisGenLeft);
 
           svg.append("text")
@@ -155,7 +155,7 @@ angular.module('hockeyStats')
               return yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("x", function(d,i){
-              return chartPaddingLefft - yAxisPaddingLeft;
+              return chartPaddingLeft - yAxisPaddingLeft;
             })
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
@@ -228,7 +228,7 @@ angular.module('hockeyStats')
 
           svg.append("svg:g")
             .attr("class", "x average-line")
-            .attr("transform", "translate(" + (chartPaddingLefft - yAxisPaddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
+            .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
             .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
             .on('mouseout', averageLineTip.hide);
@@ -242,7 +242,7 @@ angular.module('hockeyStats')
           svg.selectAll(".y.axis-left")
             .transition()
             .duration(transition)
-            .attr("transform", "translate(" + chartPaddingLefft + ",0)")
+            .attr("transform", "translate(" + chartPaddingLeft + ",0)")
             .call(yAxisGenLeft);
 
           svg.selectAll(".y.axis-right")
@@ -268,7 +268,7 @@ angular.module('hockeyStats')
               return "translate("+xScale(d.name)+", 0)";
             })
             .attr("x", function(d){
-              return chartPaddingLefft - yAxisPaddingLeft;
+              return chartPaddingLeft - yAxisPaddingLeft;
             })
             .attr("y", function(d) {
               return yScaleLeft(d.toi / d.gp / 60);
@@ -291,7 +291,7 @@ angular.module('hockeyStats')
               return yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("x", function(d){
-              return chartPaddingLefft - yAxisPaddingLeft;
+              return chartPaddingLeft - yAxisPaddingLeft;
             })
             .attr("height", function(d) {
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
@@ -383,7 +383,7 @@ angular.module('hockeyStats')
           svg.call(averageLineTip);
 
           svg.select(".x.average-line")
-            .attr("transform", "translate(" + (chartPaddingLefft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
+            .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
             .on('mouseout', averageLineTip.hide);
