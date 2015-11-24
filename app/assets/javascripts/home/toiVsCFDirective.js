@@ -171,9 +171,9 @@ angular.module('hockeyStats')
             .attr("class", "bar-label")
             .attr("text-anchor", "middle")
             .attr("dy", "1em")
-            .style("font-size","10px")
+            .style("font-size","" + (xScale.rangeBand()/3) + "px")
             .style("fill","white")
-            .attr("x", function(d) { return xScale(d.name) + xScale.rangeBand() + 14; })
+            .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
             .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
 
@@ -185,9 +185,8 @@ angular.module('hockeyStats')
               "stroke-width": 2,
               "fill": "none",
               "class": pathClass,
-              "transform": "translate(" + rawSvg[0].clientWidth/23 + ",0)"
+              "transform": "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)"
             });
-
 
           // - Circles on Line Chart
           var tip = d3.tip()
@@ -210,7 +209,7 @@ angular.module('hockeyStats')
             .attr('fill', 'white')
             .attr('stroke', 'red')
             .attr('stroke-width', '2')
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth / 23 ) + ",0)")
+            .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
@@ -300,6 +299,7 @@ angular.module('hockeyStats')
 
           rect.exit().remove();
 
+          // Bar Label
           var barLabels = svg.select("#bars").selectAll(".bar-label")
             .data(data);
 
@@ -307,9 +307,9 @@ angular.module('hockeyStats')
             .attr("class", "bar-label")
             .attr("text-anchor", "middle")
             .attr("dy", "1em")
-            .style("font-size","10px")
+            .style("font-size","" + (xScale.rangeBand()/3) + "px")
             .style("fill","white")
-            .attr("x", function(d) { return xScale(d.name) + xScale.rangeBand()/2; })
+            .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
             .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
 
@@ -318,9 +318,9 @@ angular.module('hockeyStats')
             .duration(transition)
             .attr("text-anchor", "middle")
             .attr("dy", "1em")
-            .style("font-size","10px")
+            .style("font-size","" + (xScale.rangeBand()/3) + "px")
             .style("fill","white")
-            .attr("x", function(d) { return xScale(d.name) + xScale.rangeBand() + 14; })
+            .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
             .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
 
@@ -331,7 +331,8 @@ angular.module('hockeyStats')
             .transition()
             .duration(transition)
             .attr("d", mainLine(data))
-            .attr("stroke-width", 2);
+            .attr("stroke-width", 2)
+            .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)");
 
           var tip = d3.tip()
                     .attr('class', 'd3-tip')
@@ -353,7 +354,7 @@ angular.module('hockeyStats')
             .attr('fill', 'white')
             .attr('stroke', 'red')
             .attr('stroke-width', '2')
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth / 23 ) + ",0)")
+            .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide);
 
@@ -366,7 +367,7 @@ angular.module('hockeyStats')
             .attr('fill', 'white')
             .attr('stroke', 'red')
             .attr('stroke-width', '2')
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth / 23 ) + ",0)");
+            .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
 
           circles
             .exit().remove();
@@ -383,10 +384,12 @@ angular.module('hockeyStats')
           svg.call(averageLineTip);
 
           svg.select(".x.average-line")
+            .on('mouseover', averageLineTip.show)
+            .on('mouseout', averageLineTip.hide)
+            .transition()
+            .duration(1500)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
-            .on('mouseover', averageLineTip.show)
-            .on('mouseout', averageLineTip.hide);
         }
 
         drawBarAndLineChart(selectedPlayerDataToPlot);
