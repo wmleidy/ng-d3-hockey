@@ -26,6 +26,7 @@ angular.module('hockeyStats')
         scope.$watchCollection(playersExp, function(newVal, oldVal){
           if(newVal != oldVal) {
             update(newVal);
+            updateAvgLine(newVal);
           }
         });
 
