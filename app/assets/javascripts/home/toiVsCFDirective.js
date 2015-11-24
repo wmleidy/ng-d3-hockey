@@ -272,6 +272,7 @@ angular.module('hockeyStats')
             .data(data);
 
           rect.enter().append("rect")
+            .attr("fill", primaryColor)
             .attr("transform",function(d,i){
               return "translate("+xScale(d.name)+", 0)";
             })
@@ -361,6 +362,7 @@ angular.module('hockeyStats')
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
+            .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
