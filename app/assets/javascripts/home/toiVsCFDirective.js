@@ -387,7 +387,9 @@ angular.module('hockeyStats')
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
-            .on('mouseout', averageLineTip.hide);
+            .on('mouseout', averageLineTip.hide)
+            .transition()
+            .duration(transition);
         }
 
         drawBarAndLineChart(selectedPlayerDataToPlot);
