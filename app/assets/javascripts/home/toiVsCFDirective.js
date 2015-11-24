@@ -60,11 +60,11 @@ angular.module('hockeyStats')
           yScaleRight = d3.scale.linear()
                     .domain([
                       d3.min(data, function (d) {
-                        return (d.cf_per);
-                      }) * 0.95,
+                        return (d.cf_per * 0.95);
+                      }),
                       d3.max(data, function (d) {
-                      return (d.cf_per);
-                    }) * 1.05 ])
+                      return (d.cf_per * 1.05);
+                    })])
                     .range([rawSvg.attr("height") - bottomPadding, 0]);
           xAxisGen = d3.svg.axis()
                       .scale(xScale)
