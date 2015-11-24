@@ -31,8 +31,14 @@ angular.module('hockeyStats')
         });
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
+          // console.log(newVal[0].primary_color)
+          // console.log(newVal[0].secondary_color)
           if(newVal != oldVal) {
+            primaryColor = newVal[0].primary_color
+            secondaryColor = newVal[0].secondary_color
+
             updateAvgLine(newVal);
+            updateColorScheme();
           }
         });
 
@@ -130,6 +136,7 @@ console.log(data)
 
           svg.append("svg:g")
             .attr("class", "y axis-right")
+            .attr("stroke", secondaryColor)
             .attr("transform", "translate(" + (rawSvg[0].clientWidth - 95) + ",0)")
             .call(yAxisGenRight);
 
@@ -137,7 +144,8 @@ console.log(data)
             .attr("class", "y label title-right")
             .attr("text-anchor", "end")
             .attr("dy", ".75em")
-            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",165) rotate(90)")
+            .attr("fill", secondaryColor)
+            .attr("transform", "translate(" + (rawSvg[0].clientWidth - 55) + ",200) rotate(90)")
             .text("Corsi For Percentage (CF%)");
 
           // Bar Chart
@@ -183,7 +191,7 @@ console.log(data)
           svg.append("g").attr("id", "lines").append("svg:path")
             .attr({
               d: mainLine(data),
-              "stroke": "red",
+              "stroke": secondaryColor,
               "stroke-width": 2,
               "fill": "none",
               "class": pathClass,
@@ -209,7 +217,7 @@ console.log(data)
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
+            .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
@@ -229,6 +237,7 @@ console.log(data)
 
           svg.append("svg:g")
             .attr("class", "x average-line")
+            .attr("stroke", secondaryColor)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(selectedTeamDataToPlot[0].cf_per) + ")")
             .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
@@ -236,7 +245,8 @@ console.log(data)
         }
 
         function update(data) {
-
+          // console.log("in update")
+          // console.log(primaryColor)
           setChartParameters(data);
 
           // Axis
@@ -281,7 +291,7 @@ console.log(data)
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("width", xScale.rangeBand())
-            .attr("fill", primaryColor);
+            // .attr("fill", primaryColor);
 
           rect
             .transition()
@@ -299,7 +309,7 @@ console.log(data)
               return rawSvg.attr("height") - bottomPadding - yScaleLeft(d.toi / d.gp / 60);
             })
             .attr("width", xScale.rangeBand())
-            .attr("fill", primaryColor);
+            // .attr("fill", primaryColor);
 
           rect.exit().remove();
 
@@ -356,7 +366,7 @@ console.log(data)
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
+            // .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
             .on('mouseover', tip.show)
@@ -369,7 +379,7 @@ console.log(data)
             .attr('cy', function(d) { return yScaleRight(d.cf_per); })
             .attr('r', 4)
             .attr('fill', 'white')
-            .attr('stroke', 'red')
+            // .attr('stroke', secondaryColor)
             .attr('stroke-width', '2')
             .attr("transform", "translate(" + ((chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand() / 2)) + ",0)")
 
@@ -392,8 +402,38 @@ console.log(data)
             .on('mouseout', averageLineTip.hide)
             .transition()
             .duration(1500)
+            .attr("stroke", secondaryColor)
             .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
             .call(xAxisLinearGen)
+        }
+
+        function updateColorScheme() {
+          svg = d3.select("#bar-chart").select('svg')
+
+          svg.selectAll("rect")
+            // .transition()
+            // .duration(1500)
+            .attr("fill", primaryColor);
+
+          svg.selectAll(".datapoint")
+            // .transition()
+            // .duration(1500)
+            .attr('stroke', secondaryColor)
+
+          svg.select(".y.axis-right")
+            // .transition()
+            // .duration(1500)
+            .attr("stroke", secondaryColor)
+
+          svg.select(".y.label.title-right")
+            // .transition()
+            // .duration(1500)
+            .attr("fill", secondaryColor)
+
+          svg.select("#lines").select("path")
+            // .transition()
+            // .duration(1500)
+            .attr("stroke", secondaryColor)
         }
 
         drawBarAndLineChart(selectedPlayerDataToPlot);

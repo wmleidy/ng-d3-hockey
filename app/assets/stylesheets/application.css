@@ -35,7 +35,6 @@
 .axis-right path,
 .axis-right line{
   fill: none;
-  stroke:red;
   shape-rendering:crispEdge;
 }
 
@@ -45,7 +44,6 @@
 }
 
 .axis-right text{
-  fill: red;
   font-family: sans-serif;
   font-size: 10px;
 }
@@ -67,15 +65,8 @@
   color: #fff;
   border-radius: 2px;
 }
-.title-left {
-  fill: red;
-}
-.title-right {
-  fill: red;
-}
 .average-line path {
   fill: none;
-  stroke: red;
   stroke-width: 3;
   stroke-dasharray: 4,4;
   shape-rendering:crispEdge;
