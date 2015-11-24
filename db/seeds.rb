@@ -97,6 +97,6 @@ CSV.foreach(Rails.root.join('db', 'teams-2013-2015.csv'),headers:true,header_con
 end
 
 CSV.foreach(Rails.root.join('db', 'team-colors.csv'),headers:true,header_converters: :symbol) do |team|
-	entry = Team.find_by(name: team[:name])
-	entry.update_attributes(team.to_hash)
+	entries = Team.where(name: team[:name])
+	entries.update_all(team.to_hash)
 end
