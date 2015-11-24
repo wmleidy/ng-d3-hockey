@@ -384,12 +384,12 @@ angular.module('hockeyStats')
           svg.call(averageLineTip);
 
           svg.select(".x.average-line")
-            .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
-            .call(xAxisLinearGen)
             .on('mouseover', averageLineTip.show)
             .on('mouseout', averageLineTip.hide)
             .transition()
-            .duration(transition);
+            .duration(1500)
+            .attr("transform", "translate(" + (chartPaddingLeft - yAxisPaddingLeft) + "," + yScaleRight(data[0].cf_per) + ")")
+            .call(xAxisLinearGen)
         }
 
         drawBarAndLineChart(selectedPlayerDataToPlot);
