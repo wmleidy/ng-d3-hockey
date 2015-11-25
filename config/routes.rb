@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get '/players/search' => 'players#search'
   get '/teams/search'   => 'teams#search'
 
+  match '/search_suggestions', to: 'search_suggestions#index', via: :get
+
   # Pathway?
   # resources :seasons, only: [:create, :index, :show] do
   #   resources :teams, only: [:index, :show]

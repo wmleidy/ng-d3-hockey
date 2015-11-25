@@ -22,6 +22,8 @@ gem 'angular-rails-templates'
 # Allow sending of CSRF token with POST requests initiated from Angular
 gem 'angular_rails_csrf'
 
+gem 'redis', '~> 3.0.7'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
