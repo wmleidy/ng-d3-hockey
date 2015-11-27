@@ -1,7 +1,4 @@
-<form class="search-form”>
-  <%= image_tag asset_path('search-icon.svg'), class: 'search-icon' %>
-  <input type="text" class=“search-field" />
-</form>
+
 
 <div class="page-header">
 	<h1>D3Hockey &ndash; Advanced Hockey Stats Visualization</h1>
@@ -224,4 +221,123 @@
 		</tr>
 		</tbody>
 	</table>
+</div>
+
+<h3>Individual Player Stats Lookup</h3>
+<form class="search-form">
+  <input type="text" ng-model="result" class="search-field" placeholder="Search for Player" uib-typeahead="player for player in getPlayer($viewValue)" typeahead-on-select="onSelect($item, $model, $label)"/>
+</form>
+
+<div ng-show="!isEmptyObject(playerResult)">
+	<div class="table-wrapper">
+		<table class="table table-striped table-bordered table-hover">
+			<thead><tr>
+				<th>Name</th>
+				<th>Team</th>
+				<th>Pos</th>
+				<th>GP</th>
+				<th>TOI</th>
+				<th>CF</th>
+				<th>CA</th>
+				<th>CF60</th>
+				<th>CA60</th>
+				<th>CF%</th>
+				<th>TmCF60</th>
+				<th>TmCA60</th>
+				<th>TmCF%</th>
+				<th>OppCF60</th>
+				<th>OppCA60</th>
+				<th>OppCF%</th>
+				<th>CF60RelTm</th>
+				<th>CA60RelTm</th>
+				<th>CF%RelTm</th>
+				<th>CSh%</th>
+				<th>CSv%</th>
+				<th>CPDO</th>
+				<th>GF</th>
+				<th>GA</th>
+				<th>GF60</th>
+				<th>GA60</th>
+				<th>GF%</th>
+				<th>TmGF60</th>
+				<th>TmGA60</th>
+				<th>TmGF%</th>
+				<th>OppGF60</th>
+				<th>OppGA60</th>
+				<th>OppGF%</th>
+				<th>GF60RelTm</th>
+				<th>GA60RelTm</th>
+				<th>GF%RelTm</th>
+				<th>iGoals</th>
+				<th>iAssists</th>
+				<th>iPoints</th>
+				<th>iShot%</th>
+				<th>iGoals60</th>
+				<th>iAssists60</th>
+				<th>iPoints60</th>
+				<th>IG%</th>
+				<th>IA%</th>
+				<th>IP%</th>
+				<th>TotFO</th>
+				<th>NZFO</th>
+				<th>DZFO</th>
+				<th>OZFO</th>
+			</tr></thead>
+
+			<tbody>
+			<tr>
+				<td style="white-space: nowrap">{{ playerResult.name }}</td>
+				<td style="white-space: nowrap">{{ playerResult.team }}</td>
+				<td>{{ playerResult.pos }}</td>
+				<td>{{ playerResult.gp }}</td>
+				<td>{{ formatTOI(playerResult) }}</td>
+				<td>{{ playerResult.cf }}</td>
+				<td>{{ playerResult.ca }}</td>
+				<td>{{ playerResult.cf60 }}</td>
+				<td>{{ playerResult.ca60 }}</td>
+				<td>{{ playerResult.cf_per }}</td>
+				<td>{{ playerResult.tmcf60 }}</td>
+				<td>{{ playerResult.tmca60 }}</td>
+				<td>{{ playerResult.tmcf_per }}</td>
+				<td>{{ playerResult.oppcf60 }}</td>
+				<td>{{ playerResult.oppca60 }}</td>
+				<td>{{ playerResult.oppcf_per }}</td>
+				<td>{{ playerResult.cf60reltm }}</td>
+				<td>{{ playerResult.ca60reltm }}</td>
+				<td>{{ playerResult.cf_per_reltm }}</td>
+				<td>{{ playerResult.csh_per }}</td>
+				<td>{{ playerResult.csv_per }}</td>
+				<td>{{ playerResult.cpdo }}</td>
+				<td>{{ playerResult.gf }}</td>
+				<td>{{ playerResult.ga }}</td>
+				<td>{{ playerResult.gf60 }}</td>
+				<td>{{ playerResult.ga60 }}</td>
+				<td>{{ playerResult.gf_per }}</td>
+				<td>{{ playerResult.tmgf60 }}</td>
+				<td>{{ playerResult.tmga60 }}</td>
+				<td>{{ playerResult.tmgf_per }}</td>
+				<td>{{ playerResult.oppgf60 }}</td>
+				<td>{{ playerResult.oppga60 }}</td>
+				<td>{{ playerResult.oppgf_per }}</td>
+				<td>{{ playerResult.gf60reltm }}</td>
+				<td>{{ playerResult.ga60reltm }}</td>
+				<td>{{ playerResult.gf_per_reltm }}</td>
+				<td>{{ playerResult.igoals }}</td>
+				<td>{{ playerResult.iassists }}</td>
+				<td>{{ playerResult.ipoints }}</td>
+				<td>{{ playerResult.ishot_per }}</td>
+				<td>{{ playerResult.igoals60 }}</td>
+				<td>{{ playerResult.iassists60 }}</td>
+				<td>{{ playerResult.ipoints60 }}</td>
+				<td>{{ playerResult.igp }}</td>
+				<td>{{ playerResult.iap }}</td>
+				<td>{{ playerResult.ipp }}</td>
+				<td>{{ playerResult.totfo }}</td>
+				<td>{{ playerResult.nzfo }}</td>
+				<td>{{ playerResult.dzfo }}</td>
+				<td>{{ playerResult.ozfo }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

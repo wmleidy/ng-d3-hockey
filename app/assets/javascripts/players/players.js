@@ -1,7 +1,8 @@
 angular.module('hockeyStats')
 .factory('players', ['$http', function($http){
 	var o = {
-		players: []
+		players: [],
+		player: {}
 	};
 
 	// o.getAll = function() {
@@ -27,6 +28,12 @@ angular.module('hockeyStats')
 	// 		return res.data;
 	// 	});
 	// };
+
+	o.getPlayerData = function(playerName) {
+		return $http.get('/players/search.json?player_name=' + playerName).success(function(data){
+			angular.copy(data, o.player);
+		});
+	}
 
 	return o;
 }])

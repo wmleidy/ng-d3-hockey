@@ -1,5 +1,5 @@
 angular.module('hockeyStats')
-.controller('MainCtrl', ['$scope', 'players', 'teams', function($scope, players, teams){
+.controller('MainCtrl', ['$scope', 'players', 'teams', '$http', function($scope, players, teams, $http){
 	// syncs our local controller scope with the player and team data from the services
 	$scope.players = players.players;
 	$scope.team_stats = teams.team_stats;
@@ -33,4 +33,26 @@ angular.module('hockeyStats')
 	$scope.teamStats = true;
 	$scope.playerStats = true;
 	// $scope.orderProp = 'cf_per'
+
+  $scope.getPlayer = function(val) {
+    return $http.get("/search_suggestions", {
+      params: {
+        term: val,
+      }
+    }).then(function(response){
+      return response.data.map(function(item){
+        return item;
+      });
+    });
+  };
+
+  $scope.onSelect = function ($item, $model, $label) {
+    players.getPlayerData($item)
+  };
+
+  $scope.playerResult = players.player;
+
+  $scope.isEmptyObject = function(obj) {
+    return angular.equals({}, obj);
+  };
 }])
