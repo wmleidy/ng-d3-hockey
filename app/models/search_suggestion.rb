@@ -2,10 +2,10 @@ class SearchSuggestion
 
   def self.seed
     Player.find_each do |player|
-      name = player.name
+      name = player.name.split.map(&:capitalize).join(' ')
       1.upto(name.length) do |n|
         prefix = name[0, n]
-        $redis.zadd "search-suggestions:#{prefix.downcase}", 1, name.downcase
+        $redis.zadd "search-suggestions:#{prefix.downcase}", 1, name
       end
     end
   end

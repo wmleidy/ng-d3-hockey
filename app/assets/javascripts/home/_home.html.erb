@@ -1,6 +1,8 @@
-<div class="page-header">
+<div>
 	<h1>D3Hockey &ndash; Advanced Hockey Stats Visualization</h1>
 </div>
+
+<hr>
 
 <div class="site-summary">
 	<p>The last few years have seen the meteoric rise of advanced stats in hockey. Excellent sites like <a href="http://www.puckalytics.com/">Puckalytics</a> (which is the source of all the data included here) provide hockey enthusiasts with a wealth of information about the in-game performance of every NHL player beyond just gaudy numbers like goals and assists. But tables of data can be hard for the casual fan to make sense of. Our site tries to bridge this gap by presenting insightful subsets of data in graphical format that’s responsive and easy to use.</p>
@@ -34,13 +36,7 @@
 
 <div id="bar-chart" bar-chart chart-data="players | filter:season | filter:situation | filter:{pos: position} | orderBy:'-(toi / gp / 60)'" team-data="team_stats | filter:season | filter:situation"></div>
 
-<div class="site-summary">
-	<p>One of the most important advanced stats is called Corsi For Percentage (CF%) within the analytical community. It measures the combined number of shots on goal, shots that miss the net, and blocked shots that occur for both teams when a certain player is on the ice. The theory is that a higher percentage indicates that the player spends more time in the offensive zone, which means his team is controlling possession and is thus more likely to score.</p>
-
-	<p>Our first graph compares a player’s CF% with the total team CF% (represented by a dashed line) and the player’s average time on ice. In theory, coaches should give more ice time to players who have a higher CF%&mdash;this graph provides a rough indication of how closely a coach’s ice time policy hews to the empirical conclusions drawn by data crunchers.</p>
-
-	<p>The data can be dynamically filtered by season, situation, and position. A special note on the situation filter: there is a well-known game effect in which a team leading by a couple goals or holding a one-goal lead in the third period will go into a defensive shell, allowing the other team to take shots in low percentage areas. On the other hand, since the trailing team is pressing for equalizer, they are more likely to take risks and give up breakaways. This effect, which we like to call the “Mario Kart Effect,” means the trailing team will generally pile up more Corsi events, whereas the leading team’s shot percentage will noticeably increase. Therefore, many statisticians (and we’re in this camp too) believe that Corsi Close is a more accurate measure of a player’s performance. (With Corsi Close, the only Corsi events that are counted are those that occur in a one-goal game in periods 1 and 2 or a tie game in period 3.)</p>
-</div>
+<hr>
 
 <h3>Individual Player Stats Lookup</h3>
 <form class="search-form">
@@ -111,6 +107,7 @@
 
 			<tbody>
 			<tr ng-repeat="playerResult in playerResults | filter:playerSeason | filter:playerSituation">
+				<p ng-hide="(playerResults | filter:playerSeason).length"> This player didn't play this season!</p>
 				<td style="white-space: nowrap">{{ playerResult.name }}</td>
 				<td style="white-space: nowrap">{{ playerResult.team }}</td>
 				<td>{{ playerResult.pos }}</td>
@@ -166,6 +163,8 @@
 		</table>
 	</div>
 </div>
+
+<hr>
 
 <h3>Team Stats</h3>
 <button class="btn btn-default btn-xs" ng-click="teamStats=!teamStats">Show/Hide Current Team Stats</button>
@@ -228,6 +227,8 @@
 		</tbody>
 	</table>
 </div>
+
+<hr>
 
 <h3>Player Stats</h3>
 <button class="btn btn-default btn-xs" ng-click="playerStats=!playerStats">Show/Hide Player Stats</button>
@@ -343,4 +344,15 @@
 		</tr>
 		</tbody>
 	</table>
+</div>
+
+<hr>
+
+<h3>Why?</h3>
+<div class="site-summary">
+	<p>One of the most important advanced stats is called Corsi For Percentage (CF%) within the analytical community. It measures the combined number of shots on goal, shots that miss the net, and blocked shots that occur for both teams when a certain player is on the ice. The theory is that a higher percentage indicates that the player spends more time in the offensive zone, which means his team is controlling possession and is thus more likely to score.</p>
+
+	<p>Our first graph compares a player’s CF% with the total team CF% (represented by a dashed line) and the player’s average time on ice. In theory, coaches should give more ice time to players who have a higher CF%&mdash;this graph provides a rough indication of how closely a coach’s ice time policy hews to the empirical conclusions drawn by data crunchers.</p>
+
+	<p>The data can be dynamically filtered by season, situation, and position. A special note on the situation filter: there is a well-known game effect in which a team leading by a couple goals or holding a one-goal lead in the third period will go into a defensive shell, allowing the other team to take shots in low percentage areas. On the other hand, since the trailing team is pressing for equalizer, they are more likely to take risks and give up breakaways. This effect, which we like to call the “Mario Kart Effect,” means the trailing team will generally pile up more Corsi events, whereas the leading team’s shot percentage will noticeably increase. Therefore, many statisticians (and we’re in this camp too) believe that Corsi Close is a more accurate measure of a player’s performance. (With Corsi Close, the only Corsi events that are counted are those that occur in a one-goal game in periods 1 and 2 or a tie game in period 3.)</p>
 </div>

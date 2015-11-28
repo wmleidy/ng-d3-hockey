@@ -8,7 +8,7 @@ class PlayersController < ApplicationController
 		if params[:team_name]
 			respond_with Player.where(team: params[:team_name])
 		elsif params[:player_name]
-			respond_with Player.where(name: params[:player_name].upcase)
+			respond_with Player.where(name: params[:player_name])
 		end
 		# @players = Player.where(team: params[:team_name])
 		# respond_with(@players) do |format|
@@ -22,5 +22,4 @@ class PlayersController < ApplicationController
 	# def show
 	# 	respond_with Player.find(params[:id])
 	# end
-
 end
