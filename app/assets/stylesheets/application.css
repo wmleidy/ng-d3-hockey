@@ -20,7 +20,7 @@ body {
 }
 
 body:after {
-  background-image: url(image_path("hockey_ice.jpg"));
+  background-image: url("hockey_ice.jpg");
   opacity: 0.3;
   content : "";
   display: block;
