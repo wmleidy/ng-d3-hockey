@@ -3,7 +3,7 @@ class SearchSuggestion
   def self.seed
     Player.find_each do |player|
       name = player.name
-      1.upto(name.length - 1) do |n|
+      1.upto(name.length) do |n|
         prefix = name[0, n]
         $redis.zadd "search-suggestions:#{prefix.downcase}", 1, name.downcase
       end

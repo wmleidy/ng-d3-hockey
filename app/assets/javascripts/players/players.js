@@ -2,7 +2,7 @@ angular.module('hockeyStats')
 .factory('players', ['$http', function($http){
 	var o = {
 		players: [],
-		player: {}
+		player: []
 	};
 
 	// o.getAll = function() {
@@ -28,8 +28,19 @@ angular.module('hockeyStats')
 	// 		return res.data;
 	// 	});
 	// };
+  o.getPlayerName = function(val) {
+    return $http.get("/search_suggestions", {
+      params: {
+        term: val,
+      }
+    }).then(function(response){
+      return response.data.map(function(item){
+        return item;
+      });
+    });
+  };
 
-	o.getPlayerData = function(playerName) {
+	o.getPlayerData = function(playerName,season,situation) {
 		return $http.get('/players/search.json?player_name=' + playerName).success(function(data){
 			angular.copy(data, o.player);
 		});

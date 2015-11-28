@@ -34,25 +34,19 @@ angular.module('hockeyStats')
 	$scope.playerStats = true;
 	// $scope.orderProp = 'cf_per'
 
-  $scope.getPlayer = function(val) {
-    return $http.get("/search_suggestions", {
-      params: {
-        term: val,
-      }
-    }).then(function(response){
-      return response.data.map(function(item){
-        return item;
-      });
-    });
-  };
+  $scope.getPlayerName = players.getPlayerName
 
   $scope.onSelect = function ($item, $model, $label) {
     players.getPlayerData($item)
   };
 
-  $scope.playerResult = players.player;
+  $scope.playerResults = players.player;
+  $scope.playerSeasons = ['2014-2015', '2013-2014'];
+  $scope.playerSeason = '2014-2015'
+  $scope.playerSituations = ['5v5 All', '5v5 Close'];
+  $scope.playerSituation = '5v5 All'
 
   $scope.isEmptyObject = function(obj) {
-    return angular.equals({}, obj);
+    return angular.equals([], obj);
   };
 }])

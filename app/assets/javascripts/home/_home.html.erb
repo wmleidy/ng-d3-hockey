@@ -44,10 +44,16 @@
 
 <h3>Individual Player Stats Lookup</h3>
 <form class="search-form">
-  <input type="text" ng-model="result" class="search-field" placeholder="Search for Player" uib-typeahead="player for player in getPlayer($viewValue)" typeahead-on-select="onSelect($item, $model, $label)"/>
+  <input type="text" ng-model="result" class="search-field" placeholder="Search for Player" uib-typeahead="player for player in getPlayerName($viewValue)" typeahead-on-select="onSelect($item, $model, $label)"/>
+	<select ng-model="playerSeason">
+		<option ng-repeat="playerSeason in playerSeasons">{{playerSeason}}</option>
+	</select>
+	<select ng-model="playerSituation">
+		<option ng-repeat="playerSituation in playerSituations">{{playerSituation}}</option>
+	</select>
 </form>
 
-<div ng-show="!isEmptyObject(playerResult)">
+<div ng-show="!isEmptyObject(playerResults)">
 	<div class="table-wrapper">
 		<table class="table table-striped table-bordered table-hover">
 			<thead><tr>
@@ -104,7 +110,7 @@
 			</tr></thead>
 
 			<tbody>
-			<tr>
+			<tr ng-repeat="playerResult in playerResults | filter:playerSeason | filter:playerSituation">
 				<td style="white-space: nowrap">{{ playerResult.name }}</td>
 				<td style="white-space: nowrap">{{ playerResult.team }}</td>
 				<td>{{ playerResult.pos }}</td>
