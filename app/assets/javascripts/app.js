@@ -1,4 +1,4 @@
-angular.module('hockeyStats', ['ui.router', 'templates'])
+angular.module('hockeyStats', ['ui.router', 'templates','ui.bootstrap'])
 .config([
 	'$stateProvider',
 	'$urlRouterProvider',

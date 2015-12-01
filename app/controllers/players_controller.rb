@@ -5,7 +5,11 @@ class PlayersController < ApplicationController
 	end
 
 	def search
-		respond_with Player.where(team: params[:team_name])
+		if params[:team_name]
+			respond_with Player.where(team: params[:team_name])
+		elsif params[:player_name]
+			respond_with Player.where(name: params[:player_name])
+		end
 		# @players = Player.where(team: params[:team_name])
 		# respond_with(@players) do |format|
 		# 	format.json {}
@@ -18,5 +22,4 @@ class PlayersController < ApplicationController
 	# def show
 	# 	respond_with Player.find(params[:id])
 	# end
-
 end

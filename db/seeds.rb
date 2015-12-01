@@ -6,11 +6,15 @@ def convert_time_on_ice(str)
 	minutes * 60 + seconds
 end
 
+def capitalize(name)
+	name.split.map(&:capitalize).join(' ')
+end
+
 CSV.foreach(Rails.root.join('db', '2013-2015-5v5-and-close.csv'),headers:true,header_converters: :symbol) do |player|
   player_data = {
 	  :season => player[:season],
 		:situation => player[:situation],
-		:name => player[:name],
+		:name => capitalize(player[:name]),
 		:team => player[:team],
 		:pos => player[:pos],
 		:gp => player[:gp].to_i,

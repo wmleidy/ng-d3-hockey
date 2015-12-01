@@ -1,6 +1,8 @@
-<div class="page-header">
+<div>
 	<h1>D3Hockey &ndash; Advanced Hockey Stats Visualization</h1>
 </div>
+
+<hr>
 
 <div class="site-summary">
 	<p>The last few years have seen the meteoric rise of advanced stats in hockey. Excellent sites like <a href="http://www.puckalytics.com/">Puckalytics</a> (which is the source of all the data included here) provide hockey enthusiasts with a wealth of information about the in-game performance of every NHL player beyond just gaudy numbers like goals and assists. But tables of data can be hard for the casual fan to make sense of. Our site tries to bridge this gap by presenting insightful subsets of data in graphical format that’s responsive and easy to use.</p>
@@ -34,14 +36,135 @@
 
 <div id="bar-chart" bar-chart chart-data="players | filter:season | filter:situation | filter:{pos: position} | orderBy:'-(toi / gp / 60)'" team-data="team_stats | filter:season | filter:situation"></div>
 
-<div class="site-summary">
-	<p>One of the most important advanced stats is called Corsi For Percentage (CF%) within the analytical community. It measures the combined number of shots on goal, shots that miss the net, and blocked shots that occur for both teams when a certain player is on the ice. The theory is that a higher percentage indicates that the player spends more time in the offensive zone, which means his team is controlling possession and is thus more likely to score.</p>
+<hr>
 
-	<p>Our first graph compares a player’s CF% with the total team CF% (represented by a dashed line) and the player’s average time on ice. In theory, coaches should give more ice time to players who have a higher CF%&mdash;this graph provides a rough indication of how closely a coach’s ice time policy hews to the empirical conclusions drawn by data crunchers.</p>
+<h3>Individual Player Stats Lookup</h3>
+<form class="search-form">
+  <input type="text" ng-model="result" class="search-field" placeholder="Search for Player" uib-typeahead="player for player in getPlayerName($viewValue)" typeahead-on-select="onSelect($item, $model, $label)"/>
+	<select ng-model="playerSeason">
+		<option ng-repeat="playerSeason in playerSeasons">{{playerSeason}}</option>
+	</select>
+	<select ng-model="playerSituation">
+		<option ng-repeat="playerSituation in playerSituations">{{playerSituation}}</option>
+	</select>
+</form>
 
-	<p>The data can be dynamically filtered by season, situation, and position. A special note on the situation filter: there is a well-known game effect in which a team leading by a couple goals or holding a one-goal lead in the third period will go into a defensive shell, allowing the other team to take shots in low percentage areas. On the other hand, since the trailing team is pressing for equalizer, they are more likely to take risks and give up breakaways. This effect, which we like to call the “Mario Kart Effect,” means the trailing team will generally pile up more Corsi events, whereas the leading team’s shot percentage will noticeably increase. Therefore, many statisticians (and we’re in this camp too) believe that Corsi Close is a more accurate measure of a player’s performance. (With Corsi Close, the only Corsi events that are counted are those that occur in a one-goal game in periods 1 and 2 or a tie game in period 3.)</p>
+<div ng-show="!isEmptyObject(playerResults)">
+	<div class="table-wrapper">
+		<table class="table table-striped table-bordered table-hover">
+			<thead><tr>
+				<th>Name</th>
+				<th>Team</th>
+				<th>Pos</th>
+				<th>GP</th>
+				<th>TOI</th>
+				<th>CF</th>
+				<th>CA</th>
+				<th>CF60</th>
+				<th>CA60</th>
+				<th>CF%</th>
+				<th>TmCF60</th>
+				<th>TmCA60</th>
+				<th>TmCF%</th>
+				<th>OppCF60</th>
+				<th>OppCA60</th>
+				<th>OppCF%</th>
+				<th>CF60RelTm</th>
+				<th>CA60RelTm</th>
+				<th>CF%RelTm</th>
+				<th>CSh%</th>
+				<th>CSv%</th>
+				<th>CPDO</th>
+				<th>GF</th>
+				<th>GA</th>
+				<th>GF60</th>
+				<th>GA60</th>
+				<th>GF%</th>
+				<th>TmGF60</th>
+				<th>TmGA60</th>
+				<th>TmGF%</th>
+				<th>OppGF60</th>
+				<th>OppGA60</th>
+				<th>OppGF%</th>
+				<th>GF60RelTm</th>
+				<th>GA60RelTm</th>
+				<th>GF%RelTm</th>
+				<th>iGoals</th>
+				<th>iAssists</th>
+				<th>iPoints</th>
+				<th>iShot%</th>
+				<th>iGoals60</th>
+				<th>iAssists60</th>
+				<th>iPoints60</th>
+				<th>IG%</th>
+				<th>IA%</th>
+				<th>IP%</th>
+				<th>TotFO</th>
+				<th>NZFO</th>
+				<th>DZFO</th>
+				<th>OZFO</th>
+			</tr></thead>
+
+			<tbody>
+			<tr ng-repeat="playerResult in playerResults | filter:playerSeason | filter:playerSituation">
+				<p ng-hide="(playerResults | filter:playerSeason).length"> This player didn't play this season!</p>
+				<td style="white-space: nowrap">{{ playerResult.name }}</td>
+				<td style="white-space: nowrap">{{ playerResult.team }}</td>
+				<td>{{ playerResult.pos }}</td>
+				<td>{{ playerResult.gp }}</td>
+				<td>{{ formatTOI(playerResult) }}</td>
+				<td>{{ playerResult.cf }}</td>
+				<td>{{ playerResult.ca }}</td>
+				<td>{{ playerResult.cf60 }}</td>
+				<td>{{ playerResult.ca60 }}</td>
+				<td>{{ playerResult.cf_per }}</td>
+				<td>{{ playerResult.tmcf60 }}</td>
+				<td>{{ playerResult.tmca60 }}</td>
+				<td>{{ playerResult.tmcf_per }}</td>
+				<td>{{ playerResult.oppcf60 }}</td>
+				<td>{{ playerResult.oppca60 }}</td>
+				<td>{{ playerResult.oppcf_per }}</td>
+				<td>{{ playerResult.cf60reltm }}</td>
+				<td>{{ playerResult.ca60reltm }}</td>
+				<td>{{ playerResult.cf_per_reltm }}</td>
+				<td>{{ playerResult.csh_per }}</td>
+				<td>{{ playerResult.csv_per }}</td>
+				<td>{{ playerResult.cpdo }}</td>
+				<td>{{ playerResult.gf }}</td>
+				<td>{{ playerResult.ga }}</td>
+				<td>{{ playerResult.gf60 }}</td>
+				<td>{{ playerResult.ga60 }}</td>
+				<td>{{ playerResult.gf_per }}</td>
+				<td>{{ playerResult.tmgf60 }}</td>
+				<td>{{ playerResult.tmga60 }}</td>
+				<td>{{ playerResult.tmgf_per }}</td>
+				<td>{{ playerResult.oppgf60 }}</td>
+				<td>{{ playerResult.oppga60 }}</td>
+				<td>{{ playerResult.oppgf_per }}</td>
+				<td>{{ playerResult.gf60reltm }}</td>
+				<td>{{ playerResult.ga60reltm }}</td>
+				<td>{{ playerResult.gf_per_reltm }}</td>
+				<td>{{ playerResult.igoals }}</td>
+				<td>{{ playerResult.iassists }}</td>
+				<td>{{ playerResult.ipoints }}</td>
+				<td>{{ playerResult.ishot_per }}</td>
+				<td>{{ playerResult.igoals60 }}</td>
+				<td>{{ playerResult.iassists60 }}</td>
+				<td>{{ playerResult.ipoints60 }}</td>
+				<td>{{ playerResult.igp }}</td>
+				<td>{{ playerResult.iap }}</td>
+				<td>{{ playerResult.ipp }}</td>
+				<td>{{ playerResult.totfo }}</td>
+				<td>{{ playerResult.nzfo }}</td>
+				<td>{{ playerResult.dzfo }}</td>
+				<td>{{ playerResult.ozfo }}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
+<hr>
 
 <h3>Team Stats</h3>
 <button class="btn btn-default btn-xs" ng-click="teamStats=!teamStats">Show/Hide Current Team Stats</button>
@@ -105,8 +228,10 @@
 	</table>
 </div>
 
-<h3>Player Stats</h3>
-<button class="btn btn-default btn-xs" ng-click="playerStats=!playerStats">Show/Hide Player Stats</button>
+<hr>
+
+<h3>Team Players Stats</h3>
+<button class="btn btn-default btn-xs" ng-click="playerStats=!playerStats">Show/Hide Current Team's Players Stats</button>
 <div class="table-wrapper" ng-hide="playerStats">
 	<table class="table table-striped table-bordered table-hover">
 		<thead><tr>
@@ -219,4 +344,15 @@
 		</tr>
 		</tbody>
 	</table>
+</div>
+
+<hr>
+
+<h3>Why?</h3>
+<div class="site-summary">
+	<p>One of the most important advanced stats is called Corsi For Percentage (CF%) within the analytical community. It measures the combined number of shots on goal, shots that miss the net, and blocked shots that occur for both teams when a certain player is on the ice. The theory is that a higher percentage indicates that the player spends more time in the offensive zone, which means his team is controlling possession and is thus more likely to score.</p>
+
+	<p>Our first graph compares a player’s CF% with the total team CF% (represented by a dashed line) and the player’s average time on ice. In theory, coaches should give more ice time to players who have a higher CF%&mdash;this graph provides a rough indication of how closely a coach’s ice time policy hews to the empirical conclusions drawn by data crunchers.</p>
+
+	<p>The data can be dynamically filtered by season, situation, and position. A special note on the situation filter: there is a well-known game effect in which a team leading by a couple goals or holding a one-goal lead in the third period will go into a defensive shell, allowing the other team to take shots in low percentage areas. On the other hand, since the trailing team is pressing for equalizer, they are more likely to take risks and give up breakaways. This effect, which we like to call the “Mario Kart Effect,” means the trailing team will generally pile up more Corsi events, whereas the leading team’s shot percentage will noticeably increase. Therefore, many statisticians (and we’re in this camp too) believe that Corsi Close is a more accurate measure of a player’s performance. (With Corsi Close, the only Corsi events that are counted are those that occur in a one-goal game in periods 1 and 2 or a tie game in period 3.)</p>
 </div>
