@@ -9,15 +9,15 @@ angular.module('hockeyStats')
 	$scope.situations = ['5v5 All', '5v5 Close'];
 	$scope.positions = ['', 'F', 'D'];
 
-	$scope.formatTOI = function(thing) {
+	$scope.formatTOI = function(timeInSeconds) {
 		// a bad example of cheating with type looseness in JavaScript
 		var formattedSeconds;
-		if (thing.toi % 60 < 10) {
-			formattedSeconds = "0" + thing.toi % 60;
+		if (timeInSeconds% 60 < 10) {
+			formattedSeconds = "0" + timeInSeconds % 60;
 		} else {
-			formattedSeconds = thing.toi % 60;
+			formattedSeconds = timeInSeconds % 60;
 		}
-		return String(Math.floor(thing.toi / 60)) + ":" + formattedSeconds;
+		return String(Math.floor(timeInSeconds / 60)) + ":" + formattedSeconds;
 	};
 
 	$scope.team_name = 'Chicago';
