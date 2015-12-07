@@ -20,9 +20,42 @@ angular.module('hockeyStats')
         var rawSvg = elem.find('svg');
         var svg = d3.select(rawSvg[0]);
 
+        var teamColors = {
+          "Anaheim"      : ["#000000", "#91764B"],
+          "Arizona"      : ["#000000", "#841F27"],
+          "Boston"       : ["#000000", "#FFC422"],
+          "Buffalo"      : ["#002E62", "#FDBB2F"],
+          "Calgary"      : ["#000000", "#E03A3E"],
+          "Carolina"     : ["#000000", "#E03A3E"],
+          "Chicago"      : ["#000000", "#E3263A"],
+          "Colorado"     : ["#01548A", "#8B2942"],
+          "Columbus"     : ["#00285C", "#E03A3E"],
+          "Dallas"       : ["#000000", "#006A4E"],
+          "Detroit"      : ["#000000", "#EC1F26"],
+          "Edmonton"     : ["#003777", "#E66A20"],
+          "Florida"      : ["#000000", "#C8213F"],
+          "Los Angeles"  : ["#000000", "#AFB7BA"],
+          "Minnesota"    : ["#025736", "#BF2B37"],
+          "Montreal"     : ["#213770", "#BF2F38"],
+          "Nashville"    : ["#002E62", "#FDBB2F"],
+          "New Jersey"   : ["#000000", "#E03A3E"],
+          "NY Islanders" : ["#00529B", "#F57D31"],
+          "NY Rangers"   : ["#0161AB", "#E6393F"],
+          "Ottawa"       : ["#000000", "#E4173E"],
+          "Philadelphia" : ["#000000", "#F47940"],
+          "Pittsburgh"   : ["#000000", "#D1BD80"],
+          "San Jose"     : ["#000000", "#05535D"],
+          "St. Louis"    : ["#0546A0", "#FFC325"],
+          "Tampa Bay"    : ["#000000", "#013E7D"],
+          "Toronto"      : ["#000000", "#003777"],
+          "Vancouver"    : ["#07346F", "#047A4A"],
+          "Washington"   : ["#00214E", "#CF132B"],
+          "Winnipeg"     : ["#002E62", "#A8A9AD"]
+        };
+
         var transition = 1500;
-        var primaryColor = "#000000"
-        var secondaryColor = "#C60C30";
+        var primaryColor = "#E3263A";
+        var secondaryColor = "#000000";
 
         scope.$watchCollection(playersExp, function(newVal, oldVal){
           if(newVal != oldVal) {
@@ -33,8 +66,9 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
           if(newVal != oldVal) {
-            primaryColor = newVal[0].primary_color
-            secondaryColor = newVal[0].secondary_color
+            console.log(newVal);
+            primaryColor = teamColors[newVal[0]][0];
+            secondaryColor = teamColors[newVal[0]][1];
 
             updateAvgLine(newVal);
             updateColorScheme();
