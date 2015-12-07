@@ -34,7 +34,7 @@ angular.module('hockeyStats')
 	$scope.playerStats = true;
 	// $scope.orderProp = 'cf_per'
 
-  $scope.getPlayerName = players.getPlayerName
+  $scope.getPlayerName = players.getPlayerName;
 
   $scope.onSelect = function ($item, $model, $label) {
     players.getPlayerData($item)
@@ -42,9 +42,9 @@ angular.module('hockeyStats')
 
   $scope.playerResults = players.player;
   $scope.playerSeasons = ['2014-2015', '2013-2014'];
-  $scope.playerSeason = '2014-2015'
+  $scope.playerSeason = '2014-2015';
   $scope.playerSituations = ['5v5 All', '5v5 Close'];
-  $scope.playerSituation = '5v5 All'
+  $scope.playerSituation = '5v5 All';
 
   $scope.isEmptyObject = function(obj) {
     return angular.equals([], obj);
