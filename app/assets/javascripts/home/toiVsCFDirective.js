@@ -22,35 +22,35 @@ angular.module('hockeyStats')
 
         var teamColors = {
           "Anaheim"      : ["#000000", "#91764B"],
-          "Arizona"      : ["#000000", "#841F27"],
+          "Arizona"      : ["#841F27", "#000000"],
           "Boston"       : ["#000000", "#FFC422"],
           "Buffalo"      : ["#002E62", "#FDBB2F"],
-          "Calgary"      : ["#000000", "#E03A3E"],
-          "Carolina"     : ["#000000", "#E03A3E"],
-          "Chicago"      : ["#000000", "#E3263A"],
-          "Colorado"     : ["#01548A", "#8B2942"],
+          "Calgary"      : ["#E03A3E", "#FFC758"],
+          "Carolina"     : ["#E03A3E", "#000000"],
+          "Chicago"      : ["#E3263A", "#000000"],
+          "Colorado"     : ["#8B2942", "#01548A"],
           "Columbus"     : ["#00285C", "#E03A3E"],
-          "Dallas"       : ["#000000", "#006A4E"],
-          "Detroit"      : ["#000000", "#EC1F26"],
+          "Dallas"       : ["#006A4E", "#000000"],
+          "Detroit"      : ["#EC1F26", "#888888"],
           "Edmonton"     : ["#003777", "#E66A20"],
-          "Florida"      : ["#000000", "#C8213F"],
+          "Florida"      : ["#C8213F", "#002E5F"],
           "Los Angeles"  : ["#000000", "#AFB7BA"],
           "Minnesota"    : ["#025736", "#BF2B37"],
-          "Montreal"     : ["#213770", "#BF2F38"],
-          "Nashville"    : ["#002E62", "#FDBB2F"],
-          "New Jersey"   : ["#000000", "#E03A3E"],
+          "Montreal"     : ["#BF2F38", "#213770"],
+          "Nashville"    : ["#FDBB2F", "#002E62"],
+          "New Jersey"   : ["#E03A3E", "#000000"],
           "NY Islanders" : ["#00529B", "#F57D31"],
           "NY Rangers"   : ["#0161AB", "#E6393F"],
-          "Ottawa"       : ["#000000", "#E4173E"],
-          "Philadelphia" : ["#000000", "#F47940"],
+          "Ottawa"       : ["#E4173E", "#D69F0F"],
+          "Philadelphia" : ["#F47940", "#000000"],
           "Pittsburgh"   : ["#000000", "#D1BD80"],
-          "San Jose"     : ["#000000", "#05535D"],
+          "San Jose"     : ["#05535D", "#F38F20"],
           "St. Louis"    : ["#0546A0", "#FFC325"],
-          "Tampa Bay"    : ["#000000", "#013E7D"],
-          "Toronto"      : ["#000000", "#003777"],
+          "Tampa Bay"    : ["#013E7D", "#C0C0C0"],
+          "Toronto"      : ["#003777", "#888888"],
           "Vancouver"    : ["#07346F", "#047A4A"],
-          "Washington"   : ["#00214E", "#CF132B"],
-          "Winnipeg"     : ["#002E62", "#A8A9AD"]
+          "Washington"   : ["#CF132B", "#00214E"],
+          "Winnipeg"     : ["#002E62", "#0168AB"]
         };
 
         var transition = 1500;
@@ -66,9 +66,9 @@ angular.module('hockeyStats')
 
         scope.$watchCollection(teamExp, function(newVal, oldVal){
           if(newVal != oldVal) {
-            console.log(newVal);
-            primaryColor = teamColors[newVal[0]][0];
-            secondaryColor = teamColors[newVal[0]][1];
+            var newTeam = newVal[0]["name"];
+            primaryColor = teamColors[newTeam][0];
+            secondaryColor = teamColors[newTeam][1];
 
             updateAvgLine(newVal);
             updateColorScheme();
