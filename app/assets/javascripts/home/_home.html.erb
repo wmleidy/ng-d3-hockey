@@ -112,7 +112,7 @@
 				<td style="white-space: nowrap">{{ playerResult.team }}</td>
 				<td>{{ playerResult.pos }}</td>
 				<td>{{ playerResult.gp }}</td>
-				<td>{{ formatTOI(playerResult) }}</td>
+				<td>{{ formatTOI(playerResult.toi) }}</td>
 				<td>{{ playerResult.cf }}</td>
 				<td>{{ playerResult.ca }}</td>
 				<td>{{ playerResult.cf60 }}</td>
@@ -203,7 +203,7 @@
 			<td>{{ $index + 1 }}</td>
 			<td style="white-space: nowrap">{{ team.name }}</td>
 			<td>{{ team.gp }}</td>
-			<td>{{ formatTOI(team) }}</td>
+			<td>{{ formatTOI(team.toi) }}</td>
 			<td>{{ team.gf }}</td>
 			<td>{{ team.ga }}</td>
 			<td>{{ team.gf60 }}</td>
@@ -295,7 +295,7 @@
 			<td style="white-space: nowrap">{{ player.team }}</td>
 			<td>{{ player.pos }}</td>
 			<td>{{ player.gp }}</td>
-			<td>{{ formatTOI(player) }}</td>
+			<td>{{ formatTOI(player.toi) }}</td>
 			<td>{{ player.cf }}</td>
 			<td>{{ player.ca }}</td>
 			<td>{{ player.cf60 }}</td>

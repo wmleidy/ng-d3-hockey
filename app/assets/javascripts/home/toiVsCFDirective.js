@@ -184,7 +184,7 @@ angular.module('hockeyStats')
             .style("fill","white")
             .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
-            .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
+            .text(function(d) { return (scope.formatTOI(Math.floor(d.toi / d.gp))); });
 
           // Line Chart
           svg.append("g").attr("id", "lines").append("svg:path")
@@ -322,7 +322,7 @@ angular.module('hockeyStats')
             .style("fill","white")
             .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
-            .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
+            .text(function(d) { return (scope.formatTOI(Math.floor(d.toi / d.gp))); });
 
           barLabels
             .transition()
@@ -333,7 +333,7 @@ angular.module('hockeyStats')
             .style("fill","white")
             .attr("x", function(d) { return xScale(d.name) + (chartPaddingLeft - yAxisPaddingLeft) + (xScale.rangeBand()/2); })
             .attr("y", function(d) { return yScaleLeft((d.toi / d.gp / 60).toFixed(2)); })
-            .text(function(d) { return ((d.toi / d.gp / 60).toFixed(2)); });
+            .text(function(d) { return (scope.formatTOI(Math.floor(d.toi / d.gp))); });
 
           barLabels.exit().remove();
 
